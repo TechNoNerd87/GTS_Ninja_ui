@@ -64,6 +64,11 @@ import { CurrencyExchange } from '../icons/CurrencyExchange';
 import { ChartLine } from '../icons/ChartLine';
 import { ArrowsTransaction } from '../icons/ArrowsTransaction';
 import { Gear } from '../icons/Gear';
+import { Wrench } from '../icons/Wrench';
+import { FileContract } from '../icons/FileContract';
+import { CalendarAlert } from '../icons/CalendarAlert';
+import { ClipboardList } from '../icons/ClipboardList';
+import { UserClock } from '../icons/UserClock';
 import { Feedback } from '../Feedback';
 import { PriceIncreaseBanner } from '../banners/PriceIncrease';
 
@@ -334,6 +339,86 @@ export function Default(props: Props) {
         to: '/recurring_expenses/create',
         label: t('new_recurring_expense'),
         visible: hasPermission('create_recurring_expense'),
+      },
+    },
+    {
+      name: t('equipment'),
+      href: '/equipment',
+      icon: Wrench,
+      current: location.pathname.startsWith('/equipment'),
+      visible:
+        hasPermission('view_equipment') ||
+        hasPermission('create_equipment') ||
+        hasPermission('edit_equipment'),
+      rightButton: {
+        icon: Plus,
+        to: '/equipment/create',
+        label: t('new_equipment'),
+        visible: hasPermission('create_equipment'),
+      },
+    },
+    {
+      name: t('contracts'),
+      href: '/contracts',
+      icon: FileContract,
+      current: location.pathname.startsWith('/contracts'),
+      visible:
+        hasPermission('view_contract') ||
+        hasPermission('create_contract') ||
+        hasPermission('edit_contract'),
+      rightButton: {
+        icon: Plus,
+        to: '/contracts/create',
+        label: t('new_contract'),
+        visible: hasPermission('create_contract'),
+      },
+    },
+    {
+      name: t('maintenance_schedules'),
+      href: '/maintenance_schedules',
+      icon: CalendarAlert,
+      current: location.pathname.startsWith('/maintenance_schedules'),
+      visible:
+        hasPermission('view_maintenance_schedule') ||
+        hasPermission('create_maintenance_schedule') ||
+        hasPermission('edit_maintenance_schedule'),
+      rightButton: {
+        icon: Plus,
+        to: '/maintenance_schedules/create',
+        label: t('new_maintenance_schedule'),
+        visible: hasPermission('create_maintenance_schedule'),
+      },
+    },
+    {
+      name: t('service_orders'),
+      href: '/service_orders',
+      icon: ClipboardList,
+      current: location.pathname.startsWith('/service_orders'),
+      visible:
+        hasPermission('view_service_order') ||
+        hasPermission('create_service_order') ||
+        hasPermission('edit_service_order'),
+      rightButton: {
+        icon: Plus,
+        to: '/service_orders/create',
+        label: t('new_service_order'),
+        visible: hasPermission('create_service_order'),
+      },
+    },
+    {
+      name: t('technician_schedules'),
+      href: '/technician_schedules',
+      icon: UserClock,
+      current: location.pathname.startsWith('/technician_schedules'),
+      visible:
+        hasPermission('view_technician_schedule') ||
+        hasPermission('create_technician_schedule') ||
+        hasPermission('edit_technician_schedule'),
+      rightButton: {
+        icon: Plus,
+        to: '/technician_schedules/create',
+        label: t('new_technician_schedule'),
+        visible: hasPermission('create_technician_schedule'),
       },
     },
     {

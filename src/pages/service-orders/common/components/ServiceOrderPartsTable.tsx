@@ -1,0 +1,208 @@
+/**
+ * Invoice Ninja (https://invoiceninja.com).
+ *
+ * @link https://github.com/invoiceninja/invoiceninja source repository
+ *
+ * @copyright Copyright (c) 2022. Invoice Ninja LLC (https://invoiceninja.com)
+ *
+ * @license https://www.elastic.co/licensing/elastic-license
+ */
+
+import { useTranslation } from 'react-i18next';
+import { ServiceOrder, ServiceOrderPart } from '$app/common/interfaces/service-order';
+import { useColorScheme } from '$app/common/colors';
+import { Button } from '$app/components/forms';
+import { InputField } from '$app/components/forms';
+import { NumberInputField } from '$app/components/forms/NumberInputField';
+import { useFormatMoney } from '$app/common/hooks/money/useFormatMoney';
+import { MdDelete, MdAdd } from 'react-icons/md';
+import { Icon } from '$app/components/icons/Icon';
+import { Table, Thead, Th, Tbody, Tr, Td } from '$app/components/tables';
+import { ProductSelector } from '$app/components/products/ProductSelector';
+import { v4 as uuidv4 } from 'uuid';
+
+interface Props {
+  serviceOrder: ServiceOrder;
+  handleChange: (property: keyof ServiceOrder, value: ServiceOrder[keyof ServiceOrder]) => void;
+}
+
+export function ServiceOrderPartsTable(props: Props) {
+  const [t] = useTranslation();
+
+  const colors = useColorScheme();
+  const formatMoney = useFormatMoney();
+
+  const { serviceOrder, handleChange } = props;
+
+  const parts = serviceOrder.parts || [];
+
+  const handleAddPart = () => {
+    const newPart: ServiceOrderPart = {
+      id: uuidv4(),
+      service_order_id: serviceOrder.id,
+      product_id: '',
+      quantity: 1,
+      unit_price: 0,
+      total: 0,
+      description: '',
+    };
+
+    handleChange('parts', [...parts, newPart]);
+  };
+
+  const handleRemovePart = (partId: string) => {
+    handleChange(
+      'parts',
+      parts.filter((part) => part.id !== partId)
+    );
+  };
+
+  const handlePartChange = (
+    partId: string,
+    property: keyof ServiceOrderPart,
+    value: string | number
+  ) => {
+    const updatedParts = parts.map((part) => {
+      if (part.id === partId) {
+        const updatedPart = { ...part, [property]: value };
+
+        // Recalculate total when quantity or unit_price changes
+        if (property === 'quantity' || property === 'unit_price') {
+          updatedPart.total = updatedPart.quantity * updatedPart.unit_price;
+        }
+
+        return updatedPart;
+      }
+      return part;
+    });
+
+    handleChange('parts', updatedParts);
+  };
+
+  const handleProductSelect = (partId: string, product: any) => {
+    const updatedParts = parts.map((part) => {
+      if (part.id === partId) {
+        return {
+          ...part,
+          product_id: product.id,
+          description: product.resource?.product_key || '',
+          unit_price: product.resource?.price || 0,
+          total: part.quantity * (product.resource?.price || 0),
+        };
+      }
+      return part;
+    });
+
+    handleChange('parts', updatedParts);
+  };
+
+  const calculateTotal = () => {
+    return parts.reduce((sum, part) => sum + (part.total || 0), 0);
+  };
+
+  return (
+    <div className="flex flex-col space-y-4">
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-medium" style={{ color: colors.$3 }}>
+          {t('parts_used')}
+        </h3>
+        <Button type="minimal" onClick={handleAddPart}>
+          <Icon element={MdAdd} size={20} />
+          {t('add_part')}
+        </Button>
+      </div>
+
+      {parts.length > 0 && (
+        <Table>
+          <Thead>
+            <Th>{t('product')}</Th>
+            <Th>{t('description')}</Th>
+            <Th>{t('quantity')}</Th>
+            <Th>{t('unit_price')}</Th>
+            <Th>{t('total')}</Th>
+            <Th></Th>
+          </Thead>
+          <Tbody>
+            {parts.map((part) => (
+              <Tr key={part.id}>
+                <Td>
+                  <ProductSelector
+                    defaultValue={part.product_id}
+                    onChange={(product) => handleProductSelect(part.id, product)}
+                    onClearButtonClick={() => handlePartChange(part.id, 'product_id', '')}
+                    withoutAction
+                  />
+                </Td>
+                <Td>
+                  <InputField
+                    value={part.description}
+                    onValueChange={(value) =>
+                      handlePartChange(part.id, 'description', value)
+                    }
+                  />
+                </Td>
+                <Td>
+                  <NumberInputField
+                    value={part.quantity}
+                    onValueChange={(value) =>
+                      handlePartChange(part.id, 'quantity', parseFloat(value) || 0)
+                    }
+                  />
+                </Td>
+                <Td>
+                  <NumberInputField
+                    value={part.unit_price}
+                    onValueChange={(value) =>
+                      handlePartChange(part.id, 'unit_price', parseFloat(value) || 0)
+                    }
+                  />
+                </Td>
+                <Td>
+                  {formatMoney(
+                    part.total || 0,
+                    serviceOrder.client?.country_id,
+                    serviceOrder.client?.settings?.currency_id
+                  )}
+                </Td>
+                <Td>
+                  <Button
+                    type="minimal"
+                    onClick={() => handleRemovePart(part.id)}
+                  >
+                    <Icon element={MdDelete} size={20} color="red" />
+                  </Button>
+                </Td>
+              </Tr>
+            ))}
+            <Tr>
+              <Td colSpan={4} className="text-right font-medium">
+                {t('total_parts_cost')}:
+              </Td>
+              <Td className="font-medium">
+                {formatMoney(
+                  calculateTotal(),
+                  serviceOrder.client?.country_id,
+                  serviceOrder.client?.settings?.currency_id
+                )}
+              </Td>
+              <Td></Td>
+            </Tr>
+          </Tbody>
+        </Table>
+      )}
+
+      {parts.length === 0 && (
+        <div
+          className="text-center py-8 border rounded"
+          style={{ borderColor: colors.$5, color: colors.$3 }}
+        >
+          <p>{t('no_parts')}</p>
+          <Button type="minimal" onClick={handleAddPart} className="mt-2">
+            <Icon element={MdAdd} size={20} />
+            {t('add_part')}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}

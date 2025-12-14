@@ -206,6 +206,16 @@ export const settingsRoutes = (
         <Route path="create" element={<Settings.CreateTaskStatus />} />
         <Route path=":id/edit" element={<Settings.EditTaskStatus />} />
       </Route>
+      <Route path="service_order_statuses">
+        <Route path="" element={<Settings.ServiceOrderStatuses />} />
+        <Route path="create" element={<Settings.CreateServiceOrderStatus />} />
+        <Route path=":id/edit" element={<Settings.EditServiceOrderStatus />} />
+      </Route>
+      <Route path="warehouses">
+        <Route path="" element={<Settings.Warehouses />} />
+        <Route path="create" element={<Settings.CreateWarehouse />} />
+        <Route path=":id/edit" element={<Settings.EditWarehouse />} />
+      </Route>
       <Route path="expense_categories">
         <Route path="create" element={<Settings.CreateExpenseCategory />} />
         <Route path=":id/edit" element={<Settings.EditExpenseCategory />} />

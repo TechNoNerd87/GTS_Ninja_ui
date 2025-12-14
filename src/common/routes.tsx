@@ -27,6 +27,11 @@ import { purchaseOrderRoutes } from '$app/pages/purchase-orders/routes';
 import { reportRoutes } from '$app/pages/reports/routes';
 import { transactionRoutes } from '$app/pages/transactions/routes';
 import { recurringExpenseRoutes } from '$app/pages/recurring-expenses/routes';
+import { equipmentRoutes } from '$app/pages/equipment/routes';
+import { contractRoutes } from '$app/pages/contracts/routes';
+import { maintenanceScheduleRoutes } from '$app/pages/maintenance-schedules/routes';
+import { serviceOrderRoutes } from '$app/pages/service-orders/routes';
+import { technicianScheduleRoutes } from '$app/pages/technician-schedules/routes';
 import { lazy } from 'react';
 import { Index } from '$app/pages/Index';
 import { TestingRoute } from '$app/components/TestingRoute';
@@ -65,6 +70,11 @@ export const routes = (
       {purchaseOrderRoutes}
       {expenseRoutes}
       {recurringExpenseRoutes}
+      {equipmentRoutes}
+      {contractRoutes}
+      {maintenanceScheduleRoutes}
+      {serviceOrderRoutes}
+      {technicianScheduleRoutes}
       {reportRoutes}
       {transactionRoutes}
       {settingsRoutes}
