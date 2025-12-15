@@ -15,7 +15,7 @@ import { MaintenanceSchedule, FrequencyType } from '$app/common/interfaces/maint
 import { ValidationBag } from '$app/common/interfaces/validation-bag';
 import { EntityStatus } from '$app/components/EntityStatus';
 import { EquipmentSelector } from '$app/components/equipment/EquipmentSelector';
-import { Toggle } from '$app/components/forms/Toggle';
+import Toggle from '$app/components/forms/Toggle';
 import { NumberInputField } from '$app/components/forms/NumberInputField';
 
 interface Props {

@@ -145,7 +145,7 @@ export function useMaintenanceScheduleColumns() {
       id: 'is_active',
       label: t('is_active'),
       format: (value) => (
-        <Badge variant={value ? 'green' : 'gray'}>
+        <Badge variant={value ? 'green' : 'generic'}>
           {value ? t('active') : t('inactive')}
         </Badge>
       ),

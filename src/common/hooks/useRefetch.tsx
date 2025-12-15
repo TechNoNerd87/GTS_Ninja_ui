@@ -229,6 +229,39 @@ export const keys = {
     path: '/api/v1/einvoice/validateEntity',
     dependencies: [],
   },
+  contracts: {
+    path: '/api/v1/contracts',
+    dependencies: ['/api/v1/clients', '/api/v1/documents'],
+  },
+  equipment: {
+    path: '/api/v1/equipment',
+    dependencies: ['/api/v1/clients', '/api/v1/documents'],
+  },
+  service_orders: {
+    path: '/api/v1/service_orders',
+    dependencies: [
+      '/api/v1/clients',
+      '/api/v1/equipment',
+      '/api/v1/contracts',
+      '/api/v1/documents',
+    ],
+  },
+  service_order_statuses: {
+    path: '/api/v1/service_order_statuses',
+    dependencies: ['/api/v1/service_orders'],
+  },
+  maintenance_schedules: {
+    path: '/api/v1/maintenance_schedules',
+    dependencies: ['/api/v1/equipment'],
+  },
+  technician_schedules: {
+    path: '/api/v1/technician_schedules',
+    dependencies: ['/api/v1/service_orders', '/api/v1/users'],
+  },
+  warehouses: {
+    path: '/api/v1/warehouses',
+    dependencies: [],
+  },
 };
 
 export type RefetchKey = keyof typeof keys;

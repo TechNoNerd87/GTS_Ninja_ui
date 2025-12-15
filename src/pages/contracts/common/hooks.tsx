@@ -78,7 +78,7 @@ export function useAllContractColumns() {
 const getStatusColor = (status: ContractStatus) => {
   switch (status) {
     case 'draft':
-      return 'gray';
+      return 'generic';
     case 'pending':
       return 'yellow';
     case 'active':
@@ -88,7 +88,7 @@ const getStatusColor = (status: ContractStatus) => {
     case 'cancelled':
       return 'black';
     default:
-      return 'gray';
+      return 'generic';
   }
 };
 

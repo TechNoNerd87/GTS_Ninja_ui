@@ -90,7 +90,12 @@ export type ReactTableColumns =
   | 'expense'
   | 'recurringExpense'
   | 'clientDocument'
-  | 'transaction';
+  | 'transaction'
+  | 'contract'
+  | 'equipment'
+  | 'service_order'
+  | 'maintenance_schedule'
+  | 'technician_schedule';
 
 export const preferencesDefaults: Preferences = {
   dashboard_charts: {

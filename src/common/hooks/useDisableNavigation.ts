@@ -9,9 +9,12 @@
  */
 
 import { Client } from '../interfaces/client';
+import { Contract } from '../interfaces/contract';
 import { Credit } from '../interfaces/credit';
+import { Equipment } from '../interfaces/equipment';
 import { Expense } from '../interfaces/expense';
 import { Invoice } from '../interfaces/invoice';
+import { MaintenanceSchedule } from '../interfaces/maintenance-schedule';
 import { Payment } from '../interfaces/payment';
 import { Product } from '../interfaces/product';
 import { Project } from '../interfaces/project';
@@ -19,7 +22,9 @@ import { PurchaseOrder } from '../interfaces/purchase-order';
 import { Quote } from '../interfaces/quote';
 import { RecurringExpense } from '../interfaces/recurring-expense';
 import { RecurringInvoice } from '../interfaces/recurring-invoice';
+import { ServiceOrder } from '../interfaces/service-order';
 import { Task } from '../interfaces/task';
+import { TechnicianSchedule } from '../interfaces/technician-schedule';
 import { Transaction } from '../interfaces/transactions';
 import { Vendor } from '../interfaces/vendor';
 import { useHasPermission } from './permissions/useHasPermission';
@@ -39,10 +44,16 @@ type Entity =
   | 'vendor'
   | 'recurring_expense'
   | 'bank_transaction'
-  | 'purchase_order';
+  | 'purchase_order'
+  | 'contract'
+  | 'equipment'
+  | 'service_order'
+  | 'maintenance_schedule'
+  | 'technician_schedule';
 
 type Resource =
   | Client
+  | Contract
   | RecurringInvoice
   | Payment
   | Invoice
@@ -55,7 +66,11 @@ type Resource =
   | Vendor
   | RecurringExpense
   | Transaction
-  | PurchaseOrder;
+  | PurchaseOrder
+  | Equipment
+  | ServiceOrder
+  | MaintenanceSchedule
+  | TechnicianSchedule;
 
 export function useDisableNavigation() {
   const hasPermission = useHasPermission();

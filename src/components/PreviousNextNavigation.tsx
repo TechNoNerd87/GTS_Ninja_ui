@@ -10,6 +10,7 @@
 
 import { route } from '$app/common/helpers/route';
 import { Client } from '$app/common/interfaces/client';
+import { Contract } from '$app/common/interfaces/contract';
 import { Invoice } from '$app/common/interfaces/invoice';
 import { Project } from '$app/common/interfaces/project';
 import { RecurringInvoice } from '$app/common/interfaces/recurring-invoice';
@@ -28,6 +29,10 @@ import { PurchaseOrder } from '$app/common/interfaces/purchase-order';
 import { Expense } from '$app/common/interfaces/expense';
 import { RecurringExpense } from '$app/common/interfaces/recurring-expense';
 import { Transaction } from '$app/common/interfaces/transactions';
+import { Equipment } from '$app/common/interfaces/equipment';
+import { ServiceOrder } from '$app/common/interfaces/service-order';
+import { MaintenanceSchedule } from '$app/common/interfaces/maintenance-schedule';
+import { TechnicianSchedule } from '$app/common/interfaces/technician-schedule';
 import { Tooltip } from './Tooltip';
 import { useTranslation } from 'react-i18next';
 import { usePreventNavigation } from '$app/common/hooks/usePreventNavigation';
@@ -59,13 +64,19 @@ type Entity =
   | 'purchase_order'
   | 'expense'
   | 'recurring_expense'
-  | 'transaction';
+  | 'transaction'
+  | 'contract'
+  | 'equipment'
+  | 'service_order'
+  | 'maintenance_schedule'
+  | 'technician_schedule';
 
 type Resource =
   | RecurringInvoice
   | Invoice
   | Project
   | Client
+  | Contract
   | Product
   | Payment
   | Quote
@@ -75,7 +86,11 @@ type Resource =
   | PurchaseOrder
   | Expense
   | RecurringExpense
-  | Transaction;
+  | Transaction
+  | Equipment
+  | ServiceOrder
+  | MaintenanceSchedule
+  | TechnicianSchedule;
 
 interface Props {
   entity: Entity;

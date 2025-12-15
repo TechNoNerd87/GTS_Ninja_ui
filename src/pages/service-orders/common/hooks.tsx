@@ -82,7 +82,7 @@ export function useAllServiceOrderColumns() {
 const getPriorityColor = (priority: ServiceOrderPriority) => {
   switch (priority) {
     case 'low':
-      return 'gray';
+      return 'generic';
     case 'medium':
       return 'blue';
     case 'high':
@@ -90,7 +90,7 @@ const getPriorityColor = (priority: ServiceOrderPriority) => {
     case 'urgent':
       return 'red';
     default:
-      return 'gray';
+      return 'generic';
   }
 };
 

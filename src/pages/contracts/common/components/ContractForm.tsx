@@ -15,7 +15,7 @@ import { Contract, ContractStatus, ContractType, BillingFrequency } from '$app/c
 import { ValidationBag } from '$app/common/interfaces/validation-bag';
 import { EntityStatus } from '$app/components/EntityStatus';
 import { ClientSelector } from '$app/components/clients/ClientSelector';
-import { Toggle } from '$app/components/forms/Toggle';
+import Toggle from '$app/components/forms/Toggle';
 import { NumberInputField } from '$app/components/forms/NumberInputField';
 
 interface Props {

@@ -37,6 +37,34 @@ type PurchaseOrderPermissions =
   | 'create_purchase_order'
   | 'view_purchase_order'
   | 'edit_purchase_order';
+type ContractPermissions =
+  | 'create_contract'
+  | 'view_contract'
+  | 'edit_contract';
+type EquipmentPermissions =
+  | 'create_equipment'
+  | 'view_equipment'
+  | 'edit_equipment';
+type ServiceOrderPermissions =
+  | 'create_service_order'
+  | 'view_service_order'
+  | 'edit_service_order';
+type ServiceOrderStatusPermissions =
+  | 'create_service_order_status'
+  | 'view_service_order_status'
+  | 'edit_service_order_status';
+type MaintenanceSchedulePermissions =
+  | 'create_maintenance_schedule'
+  | 'view_maintenance_schedule'
+  | 'edit_maintenance_schedule';
+type TechnicianSchedulePermissions =
+  | 'create_technician_schedule'
+  | 'view_technician_schedule'
+  | 'edit_technician_schedule';
+type WarehousePermissions =
+  | 'create_warehouse'
+  | 'view_warehouse'
+  | 'edit_warehouse';
 type ReportPermissions = 'view_reports';
 type DashboardPermissions = 'view_dashboard';
 type EmailPermissions = 'disable_emails';
@@ -57,6 +85,13 @@ export type Permissions =
   | RecurringExpensePermissions
   | BankTransactionsPermissions
   | PurchaseOrderPermissions
+  | ContractPermissions
+  | EquipmentPermissions
+  | ServiceOrderPermissions
+  | ServiceOrderStatusPermissions
+  | MaintenanceSchedulePermissions
+  | TechnicianSchedulePermissions
+  | WarehousePermissions
   | ReportPermissions
   | DashboardPermissions
   | EmailPermissions;

@@ -9,9 +9,12 @@
  */
 
 import { Client } from '../interfaces/client';
+import { Contract } from '../interfaces/contract';
 import { Credit } from '../interfaces/credit';
+import { Equipment } from '../interfaces/equipment';
 import { Expense } from '../interfaces/expense';
 import { Invoice } from '../interfaces/invoice';
+import { MaintenanceSchedule } from '../interfaces/maintenance-schedule';
 import { Payment } from '../interfaces/payment';
 import { Product } from '../interfaces/product';
 import { Project } from '../interfaces/project';
@@ -19,7 +22,9 @@ import { PurchaseOrder } from '../interfaces/purchase-order';
 import { Quote } from '../interfaces/quote';
 import { RecurringExpense } from '../interfaces/recurring-expense';
 import { RecurringInvoice } from '../interfaces/recurring-invoice';
+import { ServiceOrder } from '../interfaces/service-order';
 import { Task } from '../interfaces/task';
+import { TechnicianSchedule } from '../interfaces/technician-schedule';
 import { Transaction } from '../interfaces/transactions';
 import { Vendor } from '../interfaces/vendor';
 import { useAdmin } from './permissions/useHasPermission';
@@ -27,6 +32,7 @@ import { useCurrentUser } from './useCurrentUser';
 
 type Entity =
   | Client
+  | Contract
   | Invoice
   | Quote
   | Payment
@@ -39,7 +45,11 @@ type Entity =
   | RecurringExpense
   | Product
   | PurchaseOrder
-  | Transaction;
+  | Transaction
+  | Equipment
+  | ServiceOrder
+  | MaintenanceSchedule
+  | TechnicianSchedule;
 
 export function useEntityAssigned() {
   const user = useCurrentUser();

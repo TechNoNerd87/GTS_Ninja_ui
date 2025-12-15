@@ -80,7 +80,7 @@ const getStatusColor = (status: TechnicianScheduleStatus) => {
     case 'cancelled':
       return 'red';
     default:
-      return 'gray';
+      return 'generic';
   }
 };
 

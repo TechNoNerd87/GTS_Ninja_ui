@@ -22,7 +22,7 @@ import { Default } from '$app/components/layouts/Default';
 import { Spinner } from '$app/components/Spinner';
 import { useAtom } from 'jotai';
 import { cloneDeep } from 'lodash';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { equipmentAtom } from '../common/atoms';
@@ -51,9 +51,7 @@ export default function Create() {
   const [errors, setErrors] = useState<ValidationBag>();
   const [searchParams] = useSearchParams();
 
-  const handleSave = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleSave = () => {
     if (!isFormBusy) {
       setIsFormBusy(true);
 
