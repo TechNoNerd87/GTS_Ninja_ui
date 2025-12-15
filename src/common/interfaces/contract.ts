@@ -54,6 +54,8 @@ export interface ContractRenewal {
 
 export interface Contract {
   id: string;
+  user_id: string;
+  assigned_user_id: string;
   client_id: string;
   name: string;
   contract_number: string;

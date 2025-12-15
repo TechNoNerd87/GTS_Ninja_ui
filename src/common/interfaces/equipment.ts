@@ -15,6 +15,8 @@ export type EquipmentStatus = 'active' | 'inactive' | 'maintenance' | 'retired';
 
 export interface Equipment {
   id: string;
+  user_id: string;
+  assigned_user_id: string;
   client_id: string;
   location_id: string;
   name: string;

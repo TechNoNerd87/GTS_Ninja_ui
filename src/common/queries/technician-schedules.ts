@@ -18,11 +18,12 @@ import { GenericQueryOptions } from './invoices';
 import { useHasPermission } from '$app/common/hooks/permissions/useHasPermission';
 import { Params } from './common/params.interface';
 
-interface TechnicianSchedulesParams extends Params {
+interface TechnicianSchedulesParams extends Omit<Params, 'status'> {
   include?: string;
   user_id?: string;
   start_date?: string;
   end_date?: string;
+  status?: string;
 }
 
 export function useTechnicianSchedulesQuery(

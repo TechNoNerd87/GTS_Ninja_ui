@@ -45,6 +45,8 @@ export function ServiceOrderPartsTable(props: Props) {
       unit_price: 0,
       total: 0,
       description: '',
+      created_at: Math.floor(Date.now() / 1000),
+      updated_at: Math.floor(Date.now() / 1000),
     };
 
     handleChange('parts', [...parts, newPart]);

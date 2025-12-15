@@ -46,11 +46,12 @@ export interface ServiceOrderPart {
 
 export interface ServiceOrder {
   id: string;
+  user_id: string;
+  assigned_user_id: string;
   client_id: string;
   equipment_id: string;
   contract_id: string;
   status_id: string;
-  assigned_user_id: string;
   order_number: string;
   title: string;
   priority: ServiceOrderPriority;

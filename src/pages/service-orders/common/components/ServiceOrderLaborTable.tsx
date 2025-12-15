@@ -45,6 +45,8 @@ export function ServiceOrderLaborTable(props: Props) {
       rate: 0,
       total: 0,
       description: '',
+      created_at: Math.floor(Date.now() / 1000),
+      updated_at: Math.floor(Date.now() / 1000),
     };
 
     handleChange('labor_entries', [...laborEntries, newEntry]);

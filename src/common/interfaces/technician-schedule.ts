@@ -20,6 +20,7 @@ export type TechnicianScheduleStatus =
 export interface TechnicianSchedule {
   id: string;
   user_id: string;
+  assigned_user_id: string;
   service_order_id: string;
   title: string;
   scheduled_start: string;

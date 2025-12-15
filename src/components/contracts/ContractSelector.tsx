@@ -59,7 +59,7 @@ export function ContractSelector(props: Props) {
       case 'pending':
         return 'yellow';
       default:
-        return 'gray';
+        return 'generic';
     }
   };
 

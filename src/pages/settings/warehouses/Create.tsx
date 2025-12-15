@@ -179,7 +179,7 @@ export function Create() {
           />
 
           <CountrySelector
-            value={warehouse?.country_id}
+            value={warehouse?.country_id || ''}
             onChange={(value) => handleChange('country_id', value)}
             errorMessage={errors?.errors.country_id}
           />

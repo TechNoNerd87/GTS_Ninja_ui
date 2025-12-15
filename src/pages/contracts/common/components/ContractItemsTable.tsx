@@ -43,6 +43,9 @@ export function ContractItemsTable(props: Props) {
       quantity: 1,
       unit_price: 0,
       total: 0,
+      sort_order: items.length,
+      created_at: Math.floor(Date.now() / 1000),
+      updated_at: Math.floor(Date.now() / 1000),
     };
 
     handleChange('items', [...items, newItem]);

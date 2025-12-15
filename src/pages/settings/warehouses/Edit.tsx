@@ -20,7 +20,7 @@ import { Warehouse } from '$app/common/interfaces/warehouse';
 import { ValidationBag } from '$app/common/interfaces/validation-bag';
 import { useWarehouseQuery, bulk } from '$app/common/queries/warehouses';
 import { Settings } from '$app/components/layouts/Settings';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useHandleChange } from './common/hooks';
@@ -66,9 +66,7 @@ export function Edit() {
     setWarehouse,
   });
 
-  const handleSave = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleSave = () => {
     if (!isFormBusy) {
       toast.processing();
 
@@ -214,7 +212,7 @@ export function Edit() {
           />
 
           <CountrySelector
-            value={warehouse?.country_id}
+            value={warehouse?.country_id || ''}
             onChange={(value) => handleChange('country_id', value)}
             errorMessage={errors?.errors.country_id}
           />

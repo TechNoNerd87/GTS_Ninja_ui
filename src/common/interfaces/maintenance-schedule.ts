@@ -19,6 +19,8 @@ export type FrequencyType =
 
 export interface MaintenanceSchedule {
   id: string;
+  user_id: string;
+  assigned_user_id: string;
   equipment_id: string;
   name: string;
   frequency_type: FrequencyType;

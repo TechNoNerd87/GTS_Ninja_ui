@@ -25,7 +25,12 @@ interface Params {
     | 'client'
     | 'vendor'
     | 'product'
-    | 'transaction';
+    | 'transaction'
+    | 'contract'
+    | 'equipment'
+    | 'service_order'
+    | 'maintenance_schedule'
+    | 'technician_schedule';
   editPageTabs?: string[];
 }
 

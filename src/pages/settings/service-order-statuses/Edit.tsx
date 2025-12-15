@@ -22,7 +22,7 @@ import { ValidationBag } from '$app/common/interfaces/validation-bag';
 import { useServiceOrderStatusQuery } from '$app/common/queries/service-order-statuses';
 import { ColorPicker } from '$app/components/forms/ColorPicker';
 import { Settings } from '$app/components/layouts/Settings';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useHandleChange } from './common/hooks';
@@ -72,9 +72,7 @@ export function Edit() {
     setServiceOrderStatus,
   });
 
-  const handleSave = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleSave = () => {
     if (!isFormBusy) {
       toast.processing();
 

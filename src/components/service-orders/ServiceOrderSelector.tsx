@@ -59,7 +59,7 @@ export function ServiceOrderSelector(props: Props) {
       case 'medium':
         return 'blue';
       default:
-        return 'gray';
+        return 'generic';
     }
   };
 
