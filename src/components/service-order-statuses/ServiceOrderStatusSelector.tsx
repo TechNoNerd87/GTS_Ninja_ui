@@ -29,7 +29,7 @@ export function ServiceOrderStatusSelector(
     <>
       <ComboboxAsync<ServiceOrderStatus>
         inputOptions={{
-          label: props.inputLabel || t('service_order_status'),
+          label: props.inputLabel ?? (t('service_order_status') as string),
           value: props.value || null,
         }}
         endpoint={endpoint('/api/v1/service_order_statuses?sort=sort_order|asc')}

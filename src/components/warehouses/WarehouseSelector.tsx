@@ -27,7 +27,7 @@ export function WarehouseSelector(props: WarehouseSelectorProps) {
     <>
       <ComboboxAsync<Warehouse>
         inputOptions={{
-          label: props.inputLabel || t('warehouse'),
+          label: props.inputLabel ?? (t('warehouse') as string),
           value: props.value || null,
         }}
         endpoint={endpoint('/api/v1/warehouses?is_active=true&sort=name|asc')}
