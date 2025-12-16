@@ -10,8 +10,22 @@
 
 import { Client } from './client';
 import { Location } from './location';
+import { Warehouse } from './warehouse';
 
 export type EquipmentStatus = 'active' | 'inactive' | 'maintenance' | 'retired';
+
+export interface EquipmentMeterReading {
+  id: string;
+  equipment_id: string;
+  user_id: string;
+  meter_type: 'hours' | 'miles' | 'kilometers' | 'cycles' | 'units';
+  reading_value: number;
+  reading_date: string;
+  notes: string;
+  created_at: number;
+  updated_at: number;
+  is_deleted: boolean;
+}
 
 export interface Equipment {
   id: string;
@@ -19,14 +33,23 @@ export interface Equipment {
   assigned_user_id: string;
   client_id: string;
   location_id: string;
+  warehouse_id: string;
+  number: string;
   name: string;
+  model: string;
   serial_number: string;
-  model_number: string;
+  asset_tag: string;
   manufacturer: string;
+  category: string;
   status: EquipmentStatus;
   purchase_date: string;
-  warranty_expiration: string;
+  warranty_expiry: string;
+  installation_date: string;
+  purchase_cost: number;
+  current_value: number;
+  description: string;
   notes: string;
+  specifications: string;
   custom_value1: string;
   custom_value2: string;
   custom_value3: string;
@@ -37,5 +60,7 @@ export interface Equipment {
   is_deleted: boolean;
   client?: Client;
   location?: Location;
+  warehouse?: Warehouse;
+  meter_readings?: EquipmentMeterReading[];
   documents?: any[];
 }

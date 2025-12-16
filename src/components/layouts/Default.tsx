@@ -69,6 +69,7 @@ import { FileContract } from '../icons/FileContract';
 import { CalendarAlert } from '../icons/CalendarAlert';
 import { ClipboardList } from '../icons/ClipboardList';
 import { UserClock } from '../icons/UserClock';
+import { PiggyBank } from '../icons/PiggyBank';
 import { Feedback } from '../Feedback';
 import { PriceIncreaseBanner } from '../banners/PriceIncrease';
 
@@ -371,6 +372,22 @@ export function Default(props: Props) {
         to: '/contracts/create',
         label: t('new_contract'),
         visible: hasPermission('create_contract'),
+      },
+    },
+    {
+      name: t('service_banks'),
+      href: '/service_banks',
+      icon: PiggyBank,
+      current: location.pathname.startsWith('/service_banks'),
+      visible:
+        hasPermission('view_service_bank') ||
+        hasPermission('create_service_bank') ||
+        hasPermission('edit_service_bank'),
+      rightButton: {
+        icon: Plus,
+        to: '/service_banks/create',
+        label: t('new_service_bank'),
+        visible: hasPermission('create_service_bank'),
       },
     },
     {

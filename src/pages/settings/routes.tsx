@@ -220,6 +220,11 @@ export const settingsRoutes = (
         <Route path="create" element={<Settings.CreateExpenseCategory />} />
         <Route path=":id/edit" element={<Settings.EditExpenseCategory />} />
       </Route>
+      <Route path="rates">
+        <Route path="" element={<Settings.Rates />} />
+        <Route path="create" element={<Settings.CreateRate />} />
+        <Route path=":id/edit" element={<Settings.EditRate />} />
+      </Route>
       <Route path="integrations">
         <Route path="api_tokens">
           <Route

@@ -15,6 +15,9 @@ import { useOutletContext, useParams } from 'react-router-dom';
 import { ServiceOrderForm } from '../common/components/ServiceOrderForm';
 import { ServiceOrderLaborTable } from '../common/components/ServiceOrderLaborTable';
 import { ServiceOrderPartsTable } from '../common/components/ServiceOrderPartsTable';
+import { ServiceOrderTravelTable } from '../common/components/ServiceOrderTravelTable';
+import { ServiceOrderExpenseTable } from '../common/components/ServiceOrderExpenseTable';
+import { ServiceOrderTaskTable } from '../common/components/ServiceOrderTaskTable';
 import { useHandleChange } from '../common/hooks';
 import { Spinner } from '$app/components/Spinner';
 import { ValidationBag } from '$app/common/interfaces/validation-bag';
@@ -92,6 +95,48 @@ export default function Edit() {
           >
             <div className="px-6 py-4">
               <ServiceOrderPartsTable
+                serviceOrder={serviceOrder}
+                handleChange={handleChange}
+              />
+            </div>
+          </Card>
+
+          <Card
+            title={t('travel_entries')}
+            className="shadow-sm"
+            style={{ borderColor: colors.$24 }}
+            headerStyle={{ borderColor: colors.$20 }}
+          >
+            <div className="px-6 py-4">
+              <ServiceOrderTravelTable
+                serviceOrder={serviceOrder}
+                handleChange={handleChange}
+              />
+            </div>
+          </Card>
+
+          <Card
+            title={t('expenses')}
+            className="shadow-sm"
+            style={{ borderColor: colors.$24 }}
+            headerStyle={{ borderColor: colors.$20 }}
+          >
+            <div className="px-6 py-4">
+              <ServiceOrderExpenseTable
+                serviceOrder={serviceOrder}
+                handleChange={handleChange}
+              />
+            </div>
+          </Card>
+
+          <Card
+            title={t('task_checklist')}
+            className="shadow-sm"
+            style={{ borderColor: colors.$24 }}
+            headerStyle={{ borderColor: colors.$20 }}
+          >
+            <div className="px-6 py-4">
+              <ServiceOrderTaskTable
                 serviceOrder={serviceOrder}
                 handleChange={handleChange}
               />

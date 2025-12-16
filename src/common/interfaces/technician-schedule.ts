@@ -17,22 +17,33 @@ export type TechnicianScheduleStatus =
   | 'completed'
   | 'cancelled';
 
+export type ScheduleType =
+  | 'service'
+  | 'break'
+  | 'travel'
+  | 'meeting'
+  | 'off';
+
 export interface TechnicianSchedule {
   id: string;
   user_id: string;
-  assigned_user_id: string;
+  technician_user_id: string;
   service_order_id: string;
   title: string;
-  scheduled_start: string;
-  scheduled_end: string;
-  actual_start: string;
-  actual_end: string;
-  status: TechnicianScheduleStatus;
+  schedule_date: string;
+  start_time: string;
+  end_time: string;
+  schedule_type: ScheduleType;
   notes: string;
+  custom_value1: string;
+  custom_value2: string;
+  custom_value3: string;
+  custom_value4: string;
   created_at: number;
   updated_at: number;
   archived_at: number;
   is_deleted: boolean;
   user?: User;
+  technician?: User;
   service_order?: ServiceOrder;
 }

@@ -45,3 +45,4 @@ export * from './integrations/api-webhooks';
 export * from './integrations/analytics';
 export * from './expense-categories';
 export * from './gateways';
+export * from './rates';

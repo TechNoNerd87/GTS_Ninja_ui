@@ -9,9 +9,9 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { ServiceOrder, ServiceOrderLabor } from '$app/common/interfaces/service-order';
+import { ServiceOrder, ServiceOrderTravel } from '$app/common/interfaces/service-order';
 import { useColorScheme } from '$app/common/colors';
-import { Button } from '$app/components/forms';
+import { Button, SelectField } from '$app/components/forms';
 import { InputField } from '$app/components/forms';
 import { NumberInputField } from '$app/components/forms/NumberInputField';
 import { useFormatMoney } from '$app/common/hooks/money/useFormatMoney';
@@ -20,7 +20,7 @@ import { Icon } from '$app/components/icons/Icon';
 import { Table, Thead, Th, Tbody, Tr, Td } from '$app/components/tables';
 import { v4 as uuidv4 } from 'uuid';
 import Toggle from '$app/components/forms/Toggle';
-import { ServiceRateSelector } from '$app/components/rates/RateSelector';
+import { TravelRateSelector } from '$app/components/rates/RateSelector';
 import { Rate } from '$app/common/interfaces/rate';
 
 interface Props {
@@ -28,7 +28,7 @@ interface Props {
   handleChange: (property: keyof ServiceOrder, value: ServiceOrder[keyof ServiceOrder]) => void;
 }
 
-export function ServiceOrderLaborTable(props: Props) {
+export function ServiceOrderTravelTable(props: Props) {
   const [t] = useTranslation();
 
   const colors = useColorScheme();
@@ -36,55 +36,61 @@ export function ServiceOrderLaborTable(props: Props) {
 
   const { serviceOrder, handleChange } = props;
 
-  const laborEntries = serviceOrder.labor_entries || [];
+  const travelEntries = serviceOrder.travels || [];
 
   const handleAddEntry = () => {
-    const newEntry: ServiceOrderLabor = {
+    const newEntry: ServiceOrderTravel = {
       id: uuidv4(),
       service_order_id: serviceOrder.id,
       user_id: '',
       technician_user_id: '',
       service_bank_id: '',
-      start_time: '',
-      end_time: '',
+      travel_start_time: '',
+      travel_end_time: '',
       duration_hours: 0,
-      no_charge_hours: 0,
-      hourly_rate: 0,
-      labor_rate_id: '',
+      distance: 0,
+      distance_unit: 'miles',
+      travel_details: '',
+      notes: '',
+      travel_rate_id: '',
+      rate_quantity: 0,
+      no_charge_quantity: 0,
+      rate_amount: 0,
       total_cost: 0,
-      tax_rate_id: '',
-      description: '',
       is_billable: true,
+      tax_rate_id: '',
       applied_to_bank: false,
-      billable_hours: 0,
+      is_banked: false,
+      billable_quantity: 0,
       created_at: Math.floor(Date.now() / 1000),
       updated_at: Math.floor(Date.now() / 1000),
+      archived_at: 0,
       is_deleted: false,
     };
 
-    handleChange('labor_entries', [...laborEntries, newEntry]);
+    handleChange('travels', [...travelEntries, newEntry]);
   };
 
   const handleRemoveEntry = (entryId: string) => {
     handleChange(
-      'labor_entries',
-      laborEntries.filter((entry) => entry.id !== entryId)
+      'travels',
+      travelEntries.filter((entry) => entry.id !== entryId)
     );
   };
 
   const handleEntryChange = (
     entryId: string,
-    property: keyof ServiceOrderLabor,
+    property: keyof ServiceOrderTravel,
     value: string | number | boolean
   ) => {
-    const updatedEntries = laborEntries.map((entry) => {
+    const updatedEntries = travelEntries.map((entry) => {
       if (entry.id === entryId) {
         const updatedEntry = { ...entry, [property]: value };
 
-        // Recalculate billable_hours and total_cost when relevant fields change
-        if (property === 'duration_hours' || property === 'no_charge_hours' || property === 'hourly_rate') {
-          updatedEntry.billable_hours = Math.max(0, (updatedEntry.duration_hours || 0) - (updatedEntry.no_charge_hours || 0));
-          updatedEntry.total_cost = updatedEntry.billable_hours * (updatedEntry.hourly_rate || 0);
+        // Recalculate billable_quantity and total_cost when relevant fields change
+        if (property === 'rate_quantity' || property === 'no_charge_quantity' || property === 'rate_amount') {
+          updatedEntry.billable_quantity = Math.max(0, (updatedEntry.rate_quantity || 0) - (updatedEntry.no_charge_quantity || 0));
+          updatedEntry.total_cost = updatedEntry.billable_quantity * (updatedEntry.rate_amount || 0);
         }
 
         return updatedEntry;
@@ -92,61 +98,63 @@ export function ServiceOrderLaborTable(props: Props) {
       return entry;
     });
 
-    handleChange('labor_entries', updatedEntries);
+    handleChange('travels', updatedEntries);
   };
 
   const handleRateSelection = (entryId: string, rate: Rate) => {
-    const updatedEntries = laborEntries.map((entry) => {
+    const updatedEntries = travelEntries.map((entry) => {
       if (entry.id === entryId) {
         const updatedEntry = {
           ...entry,
-          labor_rate_id: rate.id,
-          hourly_rate: rate.charge,
+          travel_rate_id: rate.id,
+          rate_amount: rate.charge,
         };
 
         // Recalculate total_cost
-        updatedEntry.billable_hours = Math.max(0, (updatedEntry.duration_hours || 0) - (updatedEntry.no_charge_hours || 0));
-        updatedEntry.total_cost = updatedEntry.billable_hours * updatedEntry.hourly_rate;
+        updatedEntry.billable_quantity = Math.max(0, (updatedEntry.rate_quantity || 0) - (updatedEntry.no_charge_quantity || 0));
+        updatedEntry.total_cost = updatedEntry.billable_quantity * updatedEntry.rate_amount;
 
         return updatedEntry;
       }
       return entry;
     });
 
-    handleChange('labor_entries', updatedEntries);
+    handleChange('travels', updatedEntries);
   };
 
   const calculateTotalCost = () => {
-    return laborEntries.reduce((sum, entry) => sum + (entry.total_cost || 0), 0);
+    return travelEntries.reduce((sum, entry) => sum + (entry.total_cost || 0), 0);
   };
 
-  const calculateTotalHours = () => {
-    return laborEntries.reduce((sum, entry) => sum + (entry.duration_hours || 0), 0);
+  const calculateTotalDistance = () => {
+    return travelEntries.reduce((sum, entry) => sum + (entry.distance || 0), 0);
   };
 
-  const calculateTotalBillableHours = () => {
-    return laborEntries.reduce((sum, entry) => sum + (entry.billable_hours || 0), 0);
+  const calculateTotalBillableQuantity = () => {
+    return travelEntries.reduce((sum, entry) => sum + (entry.billable_quantity || 0), 0);
   };
 
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-medium" style={{ color: colors.$3 }}>
-          {t('labor_entries')}
+          {t('travel_entries')}
         </h3>
         <Button type="minimal" onClick={handleAddEntry}>
           <Icon element={MdAdd} size={20} />
-          {t('add_labor')}
+          {t('add_travel')}
         </Button>
       </div>
 
-      {laborEntries.length > 0 && (
+      {travelEntries.length > 0 && (
         <Table>
           <Thead>
             <Th>{t('start_time')}</Th>
             <Th>{t('end_time')}</Th>
-            <Th>{t('description')}</Th>
-            <Th>{t('duration')}</Th>
+            <Th>{t('distance')}</Th>
+            <Th>{t('unit')}</Th>
+            <Th>{t('details')}</Th>
+            <Th>{t('quantity')}</Th>
             <Th>{t('no_charge')}</Th>
             <Th>{t('billable')}</Th>
             <Th>{t('rate')}</Th>
@@ -155,60 +163,79 @@ export function ServiceOrderLaborTable(props: Props) {
             <Th></Th>
           </Thead>
           <Tbody>
-            {laborEntries.map((entry) => (
+            {travelEntries.map((entry) => (
               <Tr key={entry.id}>
                 <Td>
                   <InputField
                     type="datetime-local"
-                    value={entry.start_time}
+                    value={entry.travel_start_time}
                     onValueChange={(value) =>
-                      handleEntryChange(entry.id, 'start_time', value)
+                      handleEntryChange(entry.id, 'travel_start_time', value)
                     }
                   />
                 </Td>
                 <Td>
                   <InputField
                     type="datetime-local"
-                    value={entry.end_time}
+                    value={entry.travel_end_time}
                     onValueChange={(value) =>
-                      handleEntryChange(entry.id, 'end_time', value)
+                      handleEntryChange(entry.id, 'travel_end_time', value)
                     }
                   />
+                </Td>
+                <Td>
+                  <NumberInputField
+                    value={entry.distance}
+                    onValueChange={(value) =>
+                      handleEntryChange(entry.id, 'distance', parseFloat(value) || 0)
+                    }
+                  />
+                </Td>
+                <Td>
+                  <SelectField
+                    value={entry.distance_unit}
+                    onValueChange={(value) =>
+                      handleEntryChange(entry.id, 'distance_unit', value)
+                    }
+                  >
+                    <option value="miles">{t('miles')}</option>
+                    <option value="km">{t('kilometers')}</option>
+                  </SelectField>
                 </Td>
                 <Td>
                   <InputField
-                    value={entry.description}
+                    value={entry.travel_details}
                     onValueChange={(value) =>
-                      handleEntryChange(entry.id, 'description', value)
+                      handleEntryChange(entry.id, 'travel_details', value)
                     }
                   />
                 </Td>
                 <Td>
                   <NumberInputField
-                    value={entry.duration_hours}
+                    value={entry.rate_quantity}
                     onValueChange={(value) =>
-                      handleEntryChange(entry.id, 'duration_hours', parseFloat(value) || 0)
+                      handleEntryChange(entry.id, 'rate_quantity', parseFloat(value) || 0)
                     }
                   />
                 </Td>
                 <Td>
                   <NumberInputField
-                    value={entry.no_charge_hours}
+                    value={entry.no_charge_quantity}
                     onValueChange={(value) =>
-                      handleEntryChange(entry.id, 'no_charge_hours', parseFloat(value) || 0)
+                      handleEntryChange(entry.id, 'no_charge_quantity', parseFloat(value) || 0)
                     }
                   />
                 </Td>
                 <Td className="text-center">
-                  {(entry.billable_hours || 0).toFixed(2)}
+                  {(entry.billable_quantity || 0).toFixed(2)}
                 </Td>
                 <Td className="min-w-[200px]">
-                  <ServiceRateSelector
-                    value={entry.labor_rate_id}
+                  <TravelRateSelector
+                    value={entry.travel_rate_id}
                     onChange={(rate) => handleRateSelection(entry.id, rate)}
                     onClearButtonClick={() => {
-                      handleEntryChange(entry.id, 'labor_rate_id', '');
-                      handleEntryChange(entry.id, 'hourly_rate', 0);
+                      handleEntryChange(entry.id, 'travel_rate_id', '');
+                      handleEntryChange(entry.id, 'rate_amount', 0);
                     }}
                     showCharge={true}
                     groupSettingId={serviceOrder.client?.group_settings_id}
@@ -240,15 +267,18 @@ export function ServiceOrderLaborTable(props: Props) {
               </Tr>
             ))}
             <Tr>
-              <Td colSpan={3} className="text-right font-medium">
+              <Td colSpan={2} className="text-right font-medium">
                 {t('totals')}:
               </Td>
               <Td className="font-medium text-center">
-                {calculateTotalHours().toFixed(2)}
+                {calculateTotalDistance().toFixed(1)}
               </Td>
               <Td></Td>
+              <Td></Td>
+              <Td></Td>
+              <Td></Td>
               <Td className="font-medium text-center">
-                {calculateTotalBillableHours().toFixed(2)}
+                {calculateTotalBillableQuantity().toFixed(2)}
               </Td>
               <Td></Td>
               <Td></Td>
@@ -265,15 +295,15 @@ export function ServiceOrderLaborTable(props: Props) {
         </Table>
       )}
 
-      {laborEntries.length === 0 && (
+      {travelEntries.length === 0 && (
         <div
           className="text-center py-8 border rounded"
           style={{ borderColor: colors.$5, color: colors.$3 }}
         >
-          <p>{t('no_labor_entries')}</p>
+          <p>{t('no_travel_entries')}</p>
           <Button type="minimal" onClick={handleAddEntry} className="mt-2">
             <Icon element={MdAdd} size={20} />
-            {t('add_labor')}
+            {t('add_travel')}
           </Button>
         </div>
       )}

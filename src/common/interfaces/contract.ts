@@ -9,6 +9,7 @@
  */
 
 import { Client } from './client';
+import { ServiceBank } from './service-bank';
 
 export type ContractType =
   | 'warranty'
@@ -63,11 +64,40 @@ export interface Contract {
   status: ContractStatus;
   start_date: string;
   end_date: string;
+  signed_date: string;
+  cancelled_date: string;
   contract_value: number;
+  recurring_amount: number;
   billing_frequency: BillingFrequency;
+  next_billing_date: string;
+  last_billing_date: string;
+  // SLA - Hours tracking
+  included_hours: number;
+  used_hours: number;
+  hourly_rate: number;
+  // SLA - Response times
+  response_time_hours: number;
+  resolution_time_hours: number;
+  // SLA - Coverage
+  covers_parts: boolean;
+  covers_labor: boolean;
+  covers_travel: boolean;
+  covers_emergency: boolean;
+  // SLA - Discounts
+  parts_discount_percent: number;
+  labor_discount_percent: number;
+  // Renewal settings
   auto_renew: boolean;
+  renewal_notice_days: number;
+  renewal_term_months: number;
+  // Service Bank
+  default_service_bank_id: string;
+  // Notes
   description: string;
   terms_and_conditions: string;
+  private_notes: string;
+  public_notes: string;
+  // Custom fields
   custom_value1: string;
   custom_value2: string;
   custom_value3: string;
@@ -79,5 +109,7 @@ export interface Contract {
   client?: Client;
   items?: ContractItem[];
   renewals?: ContractRenewal[];
+  service_banks?: ServiceBank[];
+  default_service_bank?: ServiceBank;
   documents?: any[];
 }
