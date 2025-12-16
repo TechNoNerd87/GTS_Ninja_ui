@@ -51,7 +51,7 @@ export function useAllEquipmentColumns() {
   const equipmentColumns = [
     'name',
     'serial_number',
-    'model_number',
+    'model',
     'manufacturer',
     'client',
     'location',
@@ -103,9 +103,9 @@ export function useEquipmentColumns() {
       label: t('serial_number'),
     },
     {
-      column: 'model_number',
-      id: 'model_number',
-      label: t('model_number'),
+      column: 'model',
+      id: 'model',
+      label: t('model'),
     },
     {
       column: 'manufacturer',

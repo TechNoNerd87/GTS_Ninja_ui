@@ -53,7 +53,7 @@ export function useAllMaintenanceScheduleColumns() {
     'name',
     'equipment',
     'frequency_type',
-    'frequency_interval',
+    'frequency_value',
     'last_completed_date',
     'next_due_date',
     'estimated_duration',
@@ -118,9 +118,9 @@ export function useMaintenanceScheduleColumns() {
       format: (value) => t(value as string),
     },
     {
-      column: 'frequency_interval',
-      id: 'frequency_interval',
-      label: t('frequency_interval'),
+      column: 'frequency_value',
+      id: 'frequency_value',
+      label: t('frequency_value'),
     },
     {
       column: 'last_completed_date',

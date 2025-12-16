@@ -35,6 +35,7 @@ export interface TechnicianSchedule {
   end_time: string;
   schedule_type: ScheduleType;
   notes: string;
+  duration_hours: number;
   custom_value1: string;
   custom_value2: string;
   custom_value3: string;

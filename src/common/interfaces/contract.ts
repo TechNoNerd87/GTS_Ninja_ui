@@ -74,6 +74,7 @@ export interface Contract {
   // SLA - Hours tracking
   included_hours: number;
   used_hours: number;
+  remaining_hours: number;
   hourly_rate: number;
   // SLA - Response times
   response_time_hours: number;
@@ -106,6 +107,10 @@ export interface Contract {
   updated_at: number;
   archived_at: number;
   is_deleted: boolean;
+  // Computed fields
+  is_active: boolean;
+  is_expiring_soon: boolean;
+  days_until_expiration: number;
   client?: Client;
   items?: ContractItem[];
   renewals?: ContractRenewal[];

@@ -43,31 +43,30 @@ import { DynamicLink } from '$app/components/DynamicLink';
 import { Badge } from '$app/components/Badge';
 
 export const defaultColumns: string[] = [
-  'order_number',
+  'number',
   'title',
   'client',
   'equipment',
   'priority',
   'status',
-  'due_date',
+  'scheduled_date',
   'total_cost',
 ];
 
 export function useAllServiceOrderColumns() {
   const serviceOrderColumns = [
-    'order_number',
+    'number',
     'title',
     'client',
     'equipment',
     'contract',
     'priority',
     'status',
-    'order_date',
-    'due_date',
-    'scheduled_start_date',
-    'completed_date',
-    'total_labor_cost',
-    'total_parts_cost',
+    'scheduled_date',
+    'actual_start_date',
+    'actual_end_date',
+    'labor_cost',
+    'parts_cost',
     'total_cost',
     'created_at',
     'updated_at',
@@ -83,7 +82,7 @@ const getPriorityColor = (priority: ServiceOrderPriority) => {
   switch (priority) {
     case 'low':
       return 'generic';
-    case 'medium':
+    case 'normal':
       return 'blue';
     case 'high':
       return 'orange';
@@ -108,9 +107,9 @@ export function useServiceOrderColumns() {
 
   const columns: DataTableColumnsExtended<ServiceOrder, ServiceOrderColumns> = [
     {
-      column: 'order_number',
-      id: 'order_number',
-      label: t('order_number'),
+      column: 'number',
+      id: 'number',
+      label: t('number'),
       format: (value, serviceOrder) => (
         <span className="inline-flex items-center space-x-4">
           <EntityStatus entity={serviceOrder} />
@@ -195,33 +194,27 @@ export function useServiceOrderColumns() {
         ),
     },
     {
-      column: 'order_date',
-      id: 'order_date',
-      label: t('order_date'),
+      column: 'scheduled_date',
+      id: 'scheduled_date',
+      label: t('scheduled_date'),
       format: (value) => date(value, dateFormat),
     },
     {
-      column: 'due_date',
-      id: 'due_date',
-      label: t('due_date'),
+      column: 'actual_start_date',
+      id: 'actual_start_date',
+      label: t('actual_start_date'),
       format: (value) => date(value, dateFormat),
     },
     {
-      column: 'scheduled_start_date',
-      id: 'scheduled_start_date',
-      label: t('scheduled_start_date'),
+      column: 'actual_end_date',
+      id: 'actual_end_date',
+      label: t('actual_end_date'),
       format: (value) => date(value, dateFormat),
     },
     {
-      column: 'completed_date',
-      id: 'completed_date',
-      label: t('completed_date'),
-      format: (value) => date(value, dateFormat),
-    },
-    {
-      column: 'total_labor_cost',
-      id: 'total_labor_cost',
-      label: t('total_labor_cost'),
+      column: 'labor_cost',
+      id: 'labor_cost',
+      label: t('labor_cost'),
       format: (value, serviceOrder) =>
         formatMoney(
           value as number,
@@ -230,9 +223,9 @@ export function useServiceOrderColumns() {
         ),
     },
     {
-      column: 'total_parts_cost',
-      id: 'total_parts_cost',
-      label: t('total_parts_cost'),
+      column: 'parts_cost',
+      id: 'parts_cost',
+      label: t('parts_cost'),
       format: (value, serviceOrder) =>
         formatMoney(
           value as number,

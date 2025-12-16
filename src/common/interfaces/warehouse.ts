@@ -27,6 +27,8 @@ export interface Warehouse {
   phone: string;
   email: string;
   is_active: boolean;
+  is_default: boolean;
+  notes: string;
   custom_value1: string;
   custom_value2: string;
   custom_value3: string;

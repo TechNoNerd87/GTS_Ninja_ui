@@ -13,7 +13,7 @@ import { date, getEntityState } from '$app/common/helpers';
 import { route } from '$app/common/helpers/route';
 import { toast } from '$app/common/helpers/toast/toast';
 import { useCurrentCompanyDateFormats } from '$app/common/hooks/useCurrentCompanyDateFormats';
-import { TechnicianSchedule, TechnicianScheduleStatus } from '$app/common/interfaces/technician-schedule';
+import { TechnicianSchedule } from '$app/common/interfaces/technician-schedule';
 import { ValidationBag } from '$app/common/interfaces/validation-bag';
 import { DropdownElement } from '$app/components/dropdown/DropdownElement';
 import { EntityStatus } from '$app/components/EntityStatus';
@@ -44,9 +44,9 @@ export const defaultColumns: string[] = [
   'title',
   'user',
   'service_order',
-  'scheduled_start',
-  'scheduled_end',
-  'status',
+  'schedule_date',
+  'start_time',
+  'schedule_type',
 ];
 
 export function useAllTechnicianScheduleColumns() {
@@ -54,11 +54,10 @@ export function useAllTechnicianScheduleColumns() {
     'title',
     'user',
     'service_order',
-    'scheduled_start',
-    'scheduled_end',
-    'actual_start',
-    'actual_end',
-    'status',
+    'schedule_date',
+    'start_time',
+    'end_time',
+    'schedule_type',
     'created_at',
     'updated_at',
     'archived_at',
@@ -69,15 +68,17 @@ export function useAllTechnicianScheduleColumns() {
   return technicianScheduleColumns;
 }
 
-const getStatusColor = (status: TechnicianScheduleStatus) => {
-  switch (status) {
-    case 'scheduled':
+const getScheduleTypeColor = (scheduleType: string) => {
+  switch (scheduleType) {
+    case 'service':
       return 'blue';
-    case 'in_progress':
+    case 'travel':
       return 'yellow';
-    case 'completed':
+    case 'break':
       return 'green';
-    case 'cancelled':
+    case 'meeting':
+      return 'orange';
+    case 'off':
       return 'red';
     default:
       return 'generic';
@@ -137,35 +138,27 @@ export function useTechnicianScheduleColumns() {
         ),
     },
     {
-      column: 'scheduled_start',
-      id: 'scheduled_start',
-      label: t('scheduled_start'),
-      format: (value) => date(value, dateFormat + ' HH:mm'),
+      column: 'schedule_date',
+      id: 'schedule_date',
+      label: t('schedule_date'),
+      format: (value) => date(value, dateFormat),
     },
     {
-      column: 'scheduled_end',
-      id: 'scheduled_end',
-      label: t('scheduled_end'),
-      format: (value) => date(value, dateFormat + ' HH:mm'),
+      column: 'start_time',
+      id: 'start_time',
+      label: t('start_time'),
     },
     {
-      column: 'actual_start',
-      id: 'actual_start',
-      label: t('actual_start'),
-      format: (value) => date(value, dateFormat + ' HH:mm'),
+      column: 'end_time',
+      id: 'end_time',
+      label: t('end_time'),
     },
     {
-      column: 'actual_end',
-      id: 'actual_end',
-      label: t('actual_end'),
-      format: (value) => date(value, dateFormat + ' HH:mm'),
-    },
-    {
-      column: 'status',
-      id: 'status',
-      label: t('status'),
+      column: 'schedule_type',
+      id: 'schedule_type',
+      label: t('schedule_type'),
       format: (value) => (
-        <Badge variant={getStatusColor(value as TechnicianScheduleStatus)}>
+        <Badge variant={getScheduleTypeColor(value as string)}>
           {t(value as string)}
         </Badge>
       ),

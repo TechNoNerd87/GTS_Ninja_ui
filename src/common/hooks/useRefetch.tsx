@@ -262,6 +262,14 @@ export const keys = {
     path: '/api/v1/warehouses',
     dependencies: [],
   },
+  service_banks: {
+    path: '/api/v1/service_banks',
+    dependencies: ['/api/v1/contracts'],
+  },
+  rates: {
+    path: '/api/v1/rates',
+    dependencies: ['/api/v1/service_orders'],
+  },
 };
 
 export type RefetchKey = keyof typeof keys;

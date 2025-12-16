@@ -60,6 +60,8 @@ export interface MaintenanceSchedule {
   updated_at: number;
   archived_at: number;
   is_deleted: boolean;
+  is_overdue: boolean;
+  is_due_soon: boolean;
   equipment?: Equipment;
   client?: Client;
   documents?: any[];

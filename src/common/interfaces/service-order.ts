@@ -266,7 +266,7 @@ export interface ServiceOrder {
   assigned_user?: User;
   service_bank?: ServiceBank;
   labor_entries?: ServiceOrderLabor[];
-  parts?: ServiceOrderPart[];
+  parts_used?: ServiceOrderPart[];
   travels?: ServiceOrderTravel[];
   expenses?: ServiceOrderExpense[];
   tasks?: ServiceOrderTask[];

@@ -34,7 +34,7 @@ export function ServiceOrderPartsTable(props: Props) {
 
   const { serviceOrder, handleChange } = props;
 
-  const parts = serviceOrder.parts || [];
+  const parts = serviceOrder.parts_used || [];
 
   const handleAddPart = () => {
     const newPart: ServiceOrderPart = {
@@ -49,7 +49,7 @@ export function ServiceOrderPartsTable(props: Props) {
       updated_at: Math.floor(Date.now() / 1000),
     };
 
-    handleChange('parts', [...parts, newPart]);
+    handleChange('parts_used', [...parts, newPart]);
   };
 
   const handleRemovePart = (partId: string) => {
@@ -78,7 +78,7 @@ export function ServiceOrderPartsTable(props: Props) {
       return part;
     });
 
-    handleChange('parts', updatedParts);
+    handleChange('parts_used', updatedParts);
   };
 
   const handleProductSelect = (partId: string, product: any) => {
@@ -95,7 +95,7 @@ export function ServiceOrderPartsTable(props: Props) {
       return part;
     });
 
-    handleChange('parts', updatedParts);
+    handleChange('parts_used', updatedParts);
   };
 
   const calculateTotal = () => {

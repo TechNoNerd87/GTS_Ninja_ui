@@ -65,6 +65,14 @@ type WarehousePermissions =
   | 'create_warehouse'
   | 'view_warehouse'
   | 'edit_warehouse';
+type ServiceBankPermissions =
+  | 'create_service_bank'
+  | 'view_service_bank'
+  | 'edit_service_bank';
+type RatePermissions =
+  | 'create_rate'
+  | 'view_rate'
+  | 'edit_rate';
 type ReportPermissions = 'view_reports';
 type DashboardPermissions = 'view_dashboard';
 type EmailPermissions = 'disable_emails';
@@ -92,6 +100,8 @@ export type Permissions =
   | MaintenanceSchedulePermissions
   | TechnicianSchedulePermissions
   | WarehousePermissions
+  | ServiceBankPermissions
+  | RatePermissions
   | ReportPermissions
   | DashboardPermissions
   | EmailPermissions;

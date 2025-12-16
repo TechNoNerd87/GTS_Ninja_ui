@@ -43,7 +43,7 @@ export interface Equipment {
   category: string;
   status: EquipmentStatus;
   purchase_date: string;
-  warranty_expiry: string;
+  warranty_expiration: string;
   installation_date: string;
   purchase_cost: number;
   current_value: number;
@@ -58,6 +58,7 @@ export interface Equipment {
   updated_at: number;
   archived_at: number;
   is_deleted: boolean;
+  is_under_warranty: boolean;
   client?: Client;
   location?: Location;
   warehouse?: Warehouse;

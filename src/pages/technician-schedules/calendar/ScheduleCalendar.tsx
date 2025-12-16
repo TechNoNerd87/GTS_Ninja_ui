@@ -14,7 +14,7 @@ import { useColorScheme } from '$app/common/colors';
 import { useTranslation } from 'react-i18next';
 import { useState, useMemo } from 'react';
 import dayjs from 'dayjs';
-import { TechnicianSchedule, TechnicianScheduleStatus } from '$app/common/interfaces/technician-schedule';
+import { TechnicianSchedule, ScheduleType } from '$app/common/interfaces/technician-schedule';
 import { route } from '$app/common/helpers/route';
 import { useNavigate } from 'react-router-dom';
 import { SelectField } from '$app/components/forms';
@@ -22,15 +22,17 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { UserSelector } from '$app/components/users/UserSelector';
 import { Spinner } from '$app/components/Spinner';
 
-const getStatusColor = (status: TechnicianScheduleStatus) => {
-  switch (status) {
-    case 'scheduled':
+const getScheduleTypeColor = (scheduleType: ScheduleType) => {
+  switch (scheduleType) {
+    case 'service':
       return 'bg-blue-500';
-    case 'in_progress':
+    case 'travel':
       return 'bg-yellow-500';
-    case 'completed':
+    case 'break':
       return 'bg-green-500';
-    case 'cancelled':
+    case 'meeting':
+      return 'bg-orange-500';
+    case 'off':
       return 'bg-red-500';
     default:
       return 'bg-gray-500';
@@ -76,8 +78,8 @@ export function ScheduleCalendar() {
     if (!schedules) return [];
 
     return schedules.filter((schedule) => {
-      const scheduleStart = dayjs(schedule.scheduled_start);
-      return scheduleStart.isSame(day, 'day');
+      const scheduleDate = dayjs(schedule.schedule_date);
+      return scheduleDate.isSame(day, 'day');
     });
   };
 
@@ -153,23 +155,27 @@ export function ScheduleCalendar() {
           </div>
         </div>
 
-        {/* Status Legend */}
+        {/* Schedule Type Legend */}
         <div className="flex flex-wrap gap-4 mb-4 text-sm">
           <div className="flex items-center space-x-1">
             <span className="w-3 h-3 rounded bg-blue-500"></span>
-            <span>{t('scheduled')}</span>
+            <span>{t('service')}</span>
           </div>
           <div className="flex items-center space-x-1">
             <span className="w-3 h-3 rounded bg-yellow-500"></span>
-            <span>{t('in_progress')}</span>
+            <span>{t('travel')}</span>
           </div>
           <div className="flex items-center space-x-1">
             <span className="w-3 h-3 rounded bg-green-500"></span>
-            <span>{t('completed')}</span>
+            <span>{t('break')}</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <span className="w-3 h-3 rounded bg-orange-500"></span>
+            <span>{t('meeting')}</span>
           </div>
           <div className="flex items-center space-x-1">
             <span className="w-3 h-3 rounded bg-red-500"></span>
-            <span>{t('cancelled')}</span>
+            <span>{t('off')}</span>
           </div>
         </div>
 
@@ -219,15 +225,15 @@ export function ScheduleCalendar() {
                         <button
                           key={schedule.id}
                           onClick={() => handleEventClick(schedule)}
-                          className={`w-full text-left text-xs p-1 rounded text-white truncate ${getStatusColor(
-                            schedule.status
+                          className={`w-full text-left text-xs p-1 rounded text-white truncate ${getScheduleTypeColor(
+                            schedule.schedule_type
                           )} hover:opacity-80`}
                           title={`${schedule.title} - ${schedule.user?.first_name || ''} ${
                             schedule.user?.last_name || ''
                           }`}
                         >
                           <span className="font-medium">
-                            {dayjs(schedule.scheduled_start).format('HH:mm')}
+                            {schedule.start_time}
                           </span>{' '}
                           {schedule.title}
                         </button>

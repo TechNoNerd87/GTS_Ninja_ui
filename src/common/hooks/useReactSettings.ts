@@ -95,7 +95,9 @@ export type ReactTableColumns =
   | 'equipment'
   | 'service_order'
   | 'maintenance_schedule'
-  | 'technician_schedule';
+  | 'technician_schedule'
+  | 'service_bank'
+  | 'rate';
 
 export const preferencesDefaults: Preferences = {
   dashboard_charts: {
