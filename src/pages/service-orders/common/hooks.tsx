@@ -305,7 +305,7 @@ export function useActions() {
       id: '',
       documents: [],
       labor_entries: [],
-      parts: [],
+      parts_used: [],
     });
 
     navigate('/service_orders/create?action=clone');

@@ -28,6 +28,7 @@ interface Params {
     | 'transaction'
     | 'contract'
     | 'equipment'
+    | 'service_bank'
     | 'service_order'
     | 'maintenance_schedule'
     | 'technician_schedule';

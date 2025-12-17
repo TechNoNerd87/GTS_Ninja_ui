@@ -275,7 +275,6 @@ export function ServiceOrderTaskTable(props: Props) {
                     <Button
                       type="minimal"
                       onClick={() => quickSetStatus(task.id, 'complete')}
-                      title={t('mark_complete')}
                       className={task.completion_status === 'complete' ? 'bg-green-100 dark:bg-green-900/30' : ''}
                     >
                       <Icon element={MdCheck} size={18} className="text-green-500" />
@@ -283,7 +282,6 @@ export function ServiceOrderTaskTable(props: Props) {
                     <Button
                       type="minimal"
                       onClick={() => quickSetStatus(task.id, 'not_applicable')}
-                      title={t('mark_not_applicable')}
                       className={task.completion_status === 'not_applicable' ? 'bg-blue-100 dark:bg-blue-900/30' : ''}
                     >
                       <Icon element={MdRemove} size={18} className="text-blue-500" />
@@ -291,7 +289,6 @@ export function ServiceOrderTaskTable(props: Props) {
                     <Button
                       type="minimal"
                       onClick={() => quickSetStatus(task.id, 'skipped')}
-                      title={t('mark_skipped')}
                       className={task.completion_status === 'skipped' ? 'bg-yellow-100 dark:bg-yellow-900/30' : ''}
                     >
                       <Icon element={MdSkipNext} size={18} className="text-yellow-500" />
