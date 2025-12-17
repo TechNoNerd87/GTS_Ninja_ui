@@ -88,11 +88,19 @@ export function ServiceBankSelector(props: Props) {
       case 'hours':
         return `${bank.hours_balance.toFixed(2)} ${t('hours')}`;
       case 'currency':
-        return formatMoney(bank.currency_balance);
+        return formatMoney(
+          bank.currency_balance,
+          bank.client?.country_id,
+          bank.client?.settings?.currency_id
+        );
       case 'incidents':
         return `${bank.incidents_balance} ${t('incidents')}`;
       case 'combined':
-        return `${bank.hours_balance.toFixed(2)}h / ${formatMoney(bank.currency_balance)} / ${bank.incidents_balance}i`;
+        return `${bank.hours_balance.toFixed(2)}h / ${formatMoney(
+          bank.currency_balance,
+          bank.client?.country_id,
+          bank.client?.settings?.currency_id
+        )} / ${bank.incidents_balance}i`;
       default:
         return '';
     }

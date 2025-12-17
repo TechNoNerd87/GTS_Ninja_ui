@@ -33,7 +33,7 @@ import { ResourceActions } from '$app/components/ResourceActions';
 import { $refetch } from '$app/common/hooks/useRefetch';
 import { useColorScheme } from '$app/common/colors';
 import { NumberInputField } from '$app/components/forms/NumberInputField';
-import { Toggle } from '$app/components/forms/Toggle';
+import Toggle from '$app/components/forms/Toggle';
 import { TaxRateSelector } from '$app/components/tax-rates/TaxRateSelector';
 import { GroupSettingsSelector } from '$app/components/group-settings/GroupSettingsSelector';
 import { useFormatMoney } from '$app/common/hooks/money/useFormatMoney';
@@ -272,12 +272,13 @@ export function Edit() {
             </Element>
 
             {rate.is_taxable && (
-              <TaxRateSelector
-                inputLabel={t('tax_rate')}
-                value={rate.tax_rate_id}
-                onChange={(taxRate) => handleChange('tax_rate_id', taxRate.id)}
-                onClearButtonClick={() => handleChange('tax_rate_id', '')}
-              />
+              <Element leftSide={t('tax_rate')}>
+                <TaxRateSelector
+                  defaultValue={rate.tax_rate_id}
+                  onChange={(taxRate) => handleChange('tax_rate_id', taxRate.id)}
+                  onClearButtonClick={() => handleChange('tax_rate_id', '')}
+                />
+              </Element>
             )}
 
             {/* Client Group */}

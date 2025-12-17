@@ -72,7 +72,7 @@ export function ServiceOrderSelector(props: Props) {
           id: 'id',
           label: 'title',
           value: 'id',
-          searchable: 'order_number',
+          searchable: 'number',
           dropdownLabelFn: (serviceOrder) => (
             <div className="flex flex-col flex-1 max-w-[33rem]">
               <div className="flex space-x-2 items-center">
@@ -82,12 +82,12 @@ export function ServiceOrderSelector(props: Props) {
                 </Badge>
               </div>
 
-              {serviceOrder.order_number && (
+              {serviceOrder.number && (
                 <p
                   className="text-xs font-medium truncate"
                   style={{ color: colors.$22 }}
                 >
-                  #{serviceOrder.order_number}
+                  #{serviceOrder.number}
                 </p>
               )}
 

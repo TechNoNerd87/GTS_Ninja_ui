@@ -19,7 +19,6 @@ import { Icon } from '$app/components/icons/Icon';
 import { Table, Thead, Th, Tbody, Tr, Td } from '$app/components/tables';
 import { v4 as uuidv4 } from 'uuid';
 import { Badge } from '$app/components/Badge';
-import { ProgressBar } from '$app/components/ProgressBar';
 
 interface Props {
   serviceOrder: ServiceOrder;

@@ -182,12 +182,12 @@ export function EquipmentForm(props: Props) {
           />
         </Element>
 
-        <Element leftSide={t('warranty_expiry')}>
+        <Element leftSide={t('warranty_expiration')}>
           <InputField
             type="date"
-            value={equipment.warranty_expiry}
-            onValueChange={(value) => handleChange('warranty_expiry', value)}
-            errorMessage={errors?.errors.warranty_expiry}
+            value={equipment.warranty_expiration}
+            onValueChange={(value) => handleChange('warranty_expiration', value)}
+            errorMessage={errors?.errors.warranty_expiration}
           />
         </Element>
       </Card>

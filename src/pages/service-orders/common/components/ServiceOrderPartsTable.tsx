@@ -41,12 +41,18 @@ export function ServiceOrderPartsTable(props: Props) {
       id: uuidv4(),
       service_order_id: serviceOrder.id,
       product_id: '',
+      warehouse_id: '',
+      part_name: '',
       quantity: 1,
+      unit_cost: 0,
       unit_price: 0,
-      total: 0,
-      description: '',
+      total_cost: 0,
+      total_price: 0,
+      notes: '',
+      is_billable: true,
       created_at: Math.floor(Date.now() / 1000),
       updated_at: Math.floor(Date.now() / 1000),
+      is_deleted: false,
     };
 
     handleChange('parts_used', [...parts, newPart]);
@@ -54,7 +60,7 @@ export function ServiceOrderPartsTable(props: Props) {
 
   const handleRemovePart = (partId: string) => {
     handleChange(
-      'parts',
+      'parts_used',
       parts.filter((part) => part.id !== partId)
     );
   };
@@ -68,9 +74,10 @@ export function ServiceOrderPartsTable(props: Props) {
       if (part.id === partId) {
         const updatedPart = { ...part, [property]: value };
 
-        // Recalculate total when quantity or unit_price changes
-        if (property === 'quantity' || property === 'unit_price') {
-          updatedPart.total = updatedPart.quantity * updatedPart.unit_price;
+        // Recalculate totals when quantity or prices change
+        if (property === 'quantity' || property === 'unit_price' || property === 'unit_cost') {
+          updatedPart.total_price = updatedPart.quantity * updatedPart.unit_price;
+          updatedPart.total_cost = updatedPart.quantity * updatedPart.unit_cost;
         }
 
         return updatedPart;
@@ -84,12 +91,16 @@ export function ServiceOrderPartsTable(props: Props) {
   const handleProductSelect = (partId: string, product: any) => {
     const updatedParts = parts.map((part) => {
       if (part.id === partId) {
+        const price = product.resource?.price || 0;
+        const cost = product.resource?.cost || 0;
         return {
           ...part,
           product_id: product.id,
-          description: product.resource?.product_key || '',
-          unit_price: product.resource?.price || 0,
-          total: part.quantity * (product.resource?.price || 0),
+          part_name: product.resource?.product_key || '',
+          unit_price: price,
+          unit_cost: cost,
+          total_price: part.quantity * price,
+          total_cost: part.quantity * cost,
         };
       }
       return part;
@@ -99,7 +110,7 @@ export function ServiceOrderPartsTable(props: Props) {
   };
 
   const calculateTotal = () => {
-    return parts.reduce((sum, part) => sum + (part.total || 0), 0);
+    return parts.reduce((sum, part) => sum + (part.total_price || 0), 0);
   };
 
   return (
@@ -137,9 +148,9 @@ export function ServiceOrderPartsTable(props: Props) {
                 </Td>
                 <Td>
                   <InputField
-                    value={part.description}
+                    value={part.part_name}
                     onValueChange={(value) =>
-                      handlePartChange(part.id, 'description', value)
+                      handlePartChange(part.id, 'part_name', value)
                     }
                   />
                 </Td>
@@ -161,7 +172,7 @@ export function ServiceOrderPartsTable(props: Props) {
                 </Td>
                 <Td>
                   {formatMoney(
-                    part.total || 0,
+                    part.total_price || 0,
                     serviceOrder.client?.country_id,
                     serviceOrder.client?.settings?.currency_id
                   )}

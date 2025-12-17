@@ -22,6 +22,7 @@ import { PurchaseOrder } from '../interfaces/purchase-order';
 import { Quote } from '../interfaces/quote';
 import { RecurringExpense } from '../interfaces/recurring-expense';
 import { RecurringInvoice } from '../interfaces/recurring-invoice';
+import { ServiceBank } from '../interfaces/service-bank';
 import { ServiceOrder } from '../interfaces/service-order';
 import { Task } from '../interfaces/task';
 import { TechnicianSchedule } from '../interfaces/technician-schedule';
@@ -48,6 +49,7 @@ type Entity =
   | 'contract'
   | 'equipment'
   | 'service_order'
+  | 'service_bank'
   | 'maintenance_schedule'
   | 'technician_schedule';
 
@@ -68,6 +70,7 @@ type Resource =
   | Transaction
   | PurchaseOrder
   | Equipment
+  | ServiceBank
   | ServiceOrder
   | MaintenanceSchedule
   | TechnicianSchedule;
