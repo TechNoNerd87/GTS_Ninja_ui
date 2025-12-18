@@ -142,6 +142,10 @@ export const settingsRoutes = (
           path="recurring_expenses"
           element={<Settings.RecurringExpensesGeneratedNumbers />}
         />
+        <Route
+          path="service_orders"
+          element={<Settings.ServiceOrdersGeneratedNumbers />}
+        />
       </Route>
       <Route path="client_portal" element={<Settings.ClientPortal />}>
         <Route path="" element={<Settings.ClientPortalSettings />} />

@@ -65,6 +65,10 @@ export function useGeneratedNumbersTabs() {
       name: t('recurring_expenses'),
       href: route('/settings/generated_numbers/recurring_expenses'),
     },
+    {
+      name: t('service_orders'),
+      href: route('/settings/generated_numbers/service_orders'),
+    },
   ];
 
   return tabs;

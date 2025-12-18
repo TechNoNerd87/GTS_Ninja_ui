@@ -168,6 +168,8 @@ export interface Settings {
   mailgun_endpoint: string;
   purchase_order_number_pattern: string;
   purchase_order_number_counter: number;
+  service_order_number_pattern: string;
+  service_order_number_counter: number;
   shared_invoice_quote_counter: boolean;
   shared_invoice_credit_counter: boolean;
   recurring_number_prefix: string;

@@ -75,9 +75,8 @@ export function ServiceOrderForm(props: Props) {
 
         <Element leftSide={t('service_order_number')}>
           <InputField
-            value={serviceOrder.number}
-            onValueChange={(value) => handleChange('number', value)}
-            errorMessage={errors?.errors.number}
+            value={serviceOrder.number || (type === 'create' ? t('auto_generated') : '')}
+            disabled
           />
         </Element>
 
