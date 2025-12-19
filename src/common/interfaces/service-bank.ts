@@ -20,7 +20,8 @@ export type TransactionType =
   | 'adjustment'
   | 'rollover'
   | 'expiration'
-  | 'refund';
+  | 'refund'
+  | 'reversal';
 
 export interface ServiceBankTransaction {
   id: string;
@@ -28,6 +29,9 @@ export interface ServiceBankTransaction {
   user_id: string;
   service_order_id: string;
   service_order_labor_id: string;
+  service_order_travel_id: string;
+  reverses_transaction_id: string;
+  reversed_by_transaction_id: string;
   transaction_type: TransactionType;
   hours_amount: number;
   currency_amount: number;
@@ -39,6 +43,12 @@ export interface ServiceBankTransaction {
   description: string;
   reference_number: string;
   amount_paid: number;
+  is_reversed: boolean;
+  reversed_at: string;
+  reversal_reason: string;
+  // Computed fields
+  is_reversal: boolean;
+  can_be_reversed: boolean;
   is_deleted: boolean;
   created_at: number;
   updated_at: number;

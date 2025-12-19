@@ -50,24 +50,48 @@ export interface ServiceOrderLabor {
   service_bank?: ServiceBank;
 }
 
+export type PartStatus = 'reserved' | 'used' | 'returned' | 'defective';
+
 export interface ServiceOrderPart {
   id: string;
+  user_id: string;
   service_order_id: string;
   product_id: string;
   warehouse_id: string;
+  service_bank_id: string;
+  tax_rate_id: string;
   part_name: string;
+  serial_number: string;
+  lot_number: string;
   quantity: number;
+  quantity_returned: number;
+  return_reason: string;
   unit_cost: number;
   unit_price: number;
   total_cost: number;
   total_price: number;
   notes: string;
+  warranty_months: number;
+  warranty_expiration: string;
   is_billable: boolean;
+  affects_inventory: boolean;
+  inventory_deducted: boolean;
+  inventory_deducted_at: string;
+  applied_to_bank: boolean;
+  part_status: PartStatus;
+  // Computed fields
+  is_serialized: boolean;
+  is_under_warranty: boolean;
+  effective_quantity: number;
+  billable_amount: number;
   created_at: number;
   updated_at: number;
+  archived_at: number;
   is_deleted: boolean;
+  // Relations
   product?: Product;
   warehouse?: Warehouse;
+  service_bank?: ServiceBank;
 }
 
 // Travel entry with service bank integration (like AyaNova WorkorderItemTravel)
@@ -131,6 +155,8 @@ export interface ServiceOrderExpense {
   technician?: User;
 }
 
+export type DependencyType = 'all' | 'any';
+
 // Task entry for service order checklist (like AyaNova WorkorderItemTask)
 export interface ServiceOrderTask {
   id: string;
@@ -138,6 +164,10 @@ export interface ServiceOrderTask {
   user_id: string;
   task_id: string;
   task_group_id: string;
+  depends_on_task_id: string;
+  dependency_ids: string[];
+  dependency_type: DependencyType;
+  is_blocked: boolean;
   name: string;
   description: string;
   sort_order: number;
@@ -147,14 +177,20 @@ export interface ServiceOrderTask {
   completion_notes: string;
   estimated_duration: number;
   actual_duration: number;
-  is_completed: boolean; // Calculated
+  // Computed fields
+  is_completed: boolean;
+  has_dependencies: boolean;
+  are_dependencies_satisfied: boolean;
+  blocking_task_names: string[];
   created_at: number;
   updated_at: number;
   archived_at: number;
   is_deleted: boolean;
+  // Relations
   task?: ServiceTask;
   task_group?: ServiceTaskGroup;
   completed_by?: User;
+  depends_on_task?: ServiceOrderTask;
 }
 
 // Reusable task template

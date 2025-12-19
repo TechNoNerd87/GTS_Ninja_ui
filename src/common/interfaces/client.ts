@@ -88,4 +88,5 @@ export interface Client extends Timestamps {
   classification: string;
   e_invoice: EInvoiceType;
   locations: Location[];
+  uses_banking: boolean;
 }

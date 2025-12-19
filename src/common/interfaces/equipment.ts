@@ -59,6 +59,8 @@ export interface Equipment {
   archived_at: number;
   is_deleted: boolean;
   is_under_warranty: boolean;
+  uses_banking: boolean;
+  default_service_bank_id: string;
   client?: Client;
   location?: Location;
   warehouse?: Warehouse;
