@@ -16,11 +16,17 @@ import { route } from '$app/common/helpers/route';
 import { useFormatMoney } from '$app/common/hooks/money/useFormatMoney';
 import { useCurrentCompany } from '$app/common/hooks/useCurrentCompany';
 import { Badge } from '$app/components/Badge';
+import { Settings } from '$app/components/layouts/Settings';
 
 export function Rates() {
   const [t] = useTranslation();
   const formatMoney = useFormatMoney();
   const company = useCurrentCompany();
+
+  const pages = [
+    { name: t('settings'), href: '/settings' },
+    { name: t('rates'), href: '/settings/rates' },
+  ];
 
   const columns: DataTableColumns<Rate> = [
     {
@@ -96,15 +102,17 @@ export function Rates() {
   ];
 
   return (
-    <DataTable
-      resource="rate"
-      columns={columns}
-      endpoint="/api/v1/rates?sort=sort_order|asc"
-      bulkRoute="/api/v1/rates/bulk"
-      linkToCreate="/settings/rates/create"
-      linkToEdit="/settings/rates/:id/edit"
-      withResourcefulActions
-      enableSavingFilterPreference
-    />
+    <Settings title={t('rates')} breadcrumbs={pages}>
+      <DataTable
+        resource="rate"
+        columns={columns}
+        endpoint="/api/v1/rates?sort=sort_order|asc"
+        bulkRoute="/api/v1/rates/bulk"
+        linkToCreate="/settings/rates/create"
+        linkToEdit="/settings/rates/:id/edit"
+        withResourcefulActions
+        enableSavingFilterPreference
+      />
+    </Settings>
   );
 }
