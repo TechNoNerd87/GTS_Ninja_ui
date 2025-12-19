@@ -117,6 +117,69 @@ export function ServiceOrderForm(props: Props) {
             errorMessage={errors?.errors.status_id}
           />
         </Element>
+
+        <Element leftSide={t('close_by_date')}>
+          <InputField
+            type="date"
+            value={serviceOrder.close_by_date}
+            onValueChange={(value) => handleChange('close_by_date', value)}
+            errorMessage={errors?.errors.close_by_date}
+          />
+        </Element>
+      </Card>
+
+      {/* Reference Numbers & Service Type */}
+      <Card className="col-span-12 lg:col-span-6" title={t('reference_info')}>
+        <Element leftSide={t('customer_reference')}>
+          <InputField
+            value={serviceOrder.customer_reference}
+            onValueChange={(value) => handleChange('customer_reference', value)}
+            errorMessage={errors?.errors.customer_reference}
+            placeholder={t('po_number')}
+          />
+        </Element>
+
+        <Element leftSide={t('internal_reference')}>
+          <InputField
+            value={serviceOrder.internal_reference}
+            onValueChange={(value) => handleChange('internal_reference', value)}
+            errorMessage={errors?.errors.internal_reference}
+          />
+        </Element>
+
+        <Element leftSide={t('invoice_number')}>
+          <InputField
+            value={serviceOrder.invoice_number}
+            onValueChange={(value) => handleChange('invoice_number', value)}
+            errorMessage={errors?.errors.invoice_number}
+          />
+        </Element>
+
+        <Element leftSide={t('service_location')}>
+          <SelectField
+            value={serviceOrder.is_onsite ? 'onsite' : 'inshop'}
+            onValueChange={(value) => handleChange('is_onsite', value === 'onsite')}
+          >
+            <option value="onsite">{t('on_site')}</option>
+            <option value="inshop">{t('in_shop')}</option>
+          </SelectField>
+        </Element>
+
+        <Element leftSide={t('warranty_service')}>
+          <Toggle
+            checked={serviceOrder.is_warranty_service}
+            onValueChange={(value) => handleChange('is_warranty_service', value)}
+          />
+        </Element>
+
+        {type === 'edit' && (
+          <Element leftSide={t('closed')}>
+            <Toggle
+              checked={serviceOrder.is_closed}
+              onValueChange={(value) => handleChange('is_closed', value)}
+            />
+          </Element>
+        )}
       </Card>
 
       {/* Client & Equipment */}
@@ -163,6 +226,35 @@ export function ServiceOrderForm(props: Props) {
           <Toggle
             checked={serviceOrder.is_covered_by_contract}
             onValueChange={(value) => handleChange('is_covered_by_contract', value)}
+          />
+        </Element>
+      </Card>
+
+      {/* Customer Contact */}
+      <Card className="col-span-12 lg:col-span-6" title={t('customer_contact')}>
+        <Element leftSide={t('contact_name')}>
+          <InputField
+            value={serviceOrder.customer_contact_name}
+            onValueChange={(value) => handleChange('customer_contact_name', value)}
+            errorMessage={errors?.errors.customer_contact_name}
+          />
+        </Element>
+
+        <Element leftSide={t('contact_phone')}>
+          <InputField
+            type="tel"
+            value={serviceOrder.customer_contact_phone}
+            onValueChange={(value) => handleChange('customer_contact_phone', value)}
+            errorMessage={errors?.errors.customer_contact_phone}
+          />
+        </Element>
+
+        <Element leftSide={t('contact_email')}>
+          <InputField
+            type="email"
+            value={serviceOrder.customer_contact_email}
+            onValueChange={(value) => handleChange('customer_contact_email', value)}
+            errorMessage={errors?.errors.customer_contact_email}
           />
         </Element>
       </Card>

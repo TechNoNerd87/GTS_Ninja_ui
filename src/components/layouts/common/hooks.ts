@@ -95,6 +95,18 @@ export function useSettingsRoutes() {
       enabled: isAdmin || isOwner || false,
     },
     {
+      name: t('service_order_statuses'),
+      href: '/settings/service_order_statuses',
+      current: location.pathname.startsWith('/settings/service_order_statuses'),
+      enabled: isAdmin || isOwner || false,
+    },
+    {
+      name: t('warehouses'),
+      href: '/settings/warehouses',
+      current: location.pathname.startsWith('/settings/warehouses'),
+      enabled: isAdmin || isOwner || false,
+    },
+    {
       name: t('workflow_settings'),
       href: '/settings/workflow_settings',
       current: location.pathname.startsWith('/settings/workflow_settings'),

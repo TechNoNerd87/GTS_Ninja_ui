@@ -33,7 +33,7 @@ export interface ServiceOrderLabor {
   start_time: string;
   end_time: string;
   duration_hours: number;
-  no_charge_hours: number; // Non-billable portion (like AyaNova NoChargeQuantity)
+  no_charge_hours: number; // Non-billable portion
   hourly_rate: number;
   labor_rate_id: string;
   total_cost: number;
@@ -94,7 +94,7 @@ export interface ServiceOrderPart {
   service_bank?: ServiceBank;
 }
 
-// Travel entry with service bank integration (like AyaNova WorkorderItemTravel)
+// Travel entry with service bank integration
 export interface ServiceOrderTravel {
   id: string;
   service_order_id: string;
@@ -126,7 +126,7 @@ export interface ServiceOrderTravel {
   service_bank?: ServiceBank;
 }
 
-// Expense entry with technician reimbursement (like AyaNova WorkorderItemMiscExpense)
+// Expense entry with technician reimbursement
 export interface ServiceOrderExpense {
   id: string;
   service_order_id: string;
@@ -157,7 +157,7 @@ export interface ServiceOrderExpense {
 
 export type DependencyType = 'all' | 'any';
 
-// Task entry for service order checklist (like AyaNova WorkorderItemTask)
+// Task entry for service order checklist
 export interface ServiceOrderTask {
   id: string;
   service_order_id: string;
@@ -238,11 +238,26 @@ export interface ServiceOrder {
   invoice_id: string;
   project_id: string;
   contract_id: string;
+  quote_id: string;
+  category_id: string;
+  region_id: string;
   number: string;
   title: string;
   description: string;
   priority: ServiceOrderPriority;
   service_type: ServiceType;
+  // Extended fields
+  customer_reference: string;
+  internal_reference: string;
+  customer_contact_name: string;
+  customer_contact_phone: string;
+  customer_contact_email: string;
+  invoice_number: string;
+  is_onsite: boolean;
+  is_warranty_service: boolean;
+  is_closed: boolean;
+  closed_at: string;
+  close_by_date: string;
   // Scheduling
   scheduled_date: string;
   scheduled_start_time: string;
@@ -277,7 +292,7 @@ export interface ServiceOrder {
   tasks_incomplete: number;
   tasks_completion_percentage: number;
   all_tasks_completed: boolean;
-  // Custom fields (expanded from 4 to 10 like AyaNova)
+  // Custom fields
   custom_value1: string;
   custom_value2: string;
   custom_value3: string;
