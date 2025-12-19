@@ -89,6 +89,12 @@ export function useSettingsRoutes() {
       enabled: ((isAdmin || isOwner) && isCompanySettingsActive) || false,
     },
     {
+      name: t('rates'),
+      href: '/settings/rates',
+      current: location.pathname.startsWith('/settings/rates'),
+      enabled: isAdmin || isOwner || false,
+    },
+    {
       name: t('workflow_settings'),
       href: '/settings/workflow_settings',
       current: location.pathname.startsWith('/settings/workflow_settings'),
