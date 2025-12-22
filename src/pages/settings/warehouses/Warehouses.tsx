@@ -13,9 +13,15 @@ import { Warehouse } from '$app/common/interfaces/warehouse';
 import { DataTable, DataTableColumns } from '$app/components/DataTable';
 import { useTranslation } from 'react-i18next';
 import { route } from '$app/common/helpers/route';
+import { Settings } from '$app/components/layouts/Settings';
 
 export function Warehouses() {
   const [t] = useTranslation();
+
+  const pages = [
+    { name: t('settings'), href: '/settings' },
+    { name: t('warehouses'), href: '/settings/warehouses' },
+  ];
 
   const columns: DataTableColumns<Warehouse> = [
     {
@@ -56,15 +62,17 @@ export function Warehouses() {
   ];
 
   return (
-    <DataTable
-      resource="warehouse"
-      columns={columns}
-      endpoint="/api/v1/warehouses?sort=name|asc"
-      bulkRoute="/api/v1/warehouses/bulk"
-      linkToCreate="/settings/warehouses/create"
-      linkToEdit="/settings/warehouses/:id/edit"
-      withResourcefulActions
-      enableSavingFilterPreference
-    />
+    <Settings title={t('warehouses')} breadcrumbs={pages}>
+      <DataTable
+        resource="warehouse"
+        columns={columns}
+        endpoint="/api/v1/warehouses?sort=name|asc"
+        bulkRoute="/api/v1/warehouses/bulk"
+        linkToCreate="/settings/warehouses/create"
+        linkToEdit="/settings/warehouses/:id/edit"
+        withResourcefulActions
+        enableSavingFilterPreference
+      />
+    </Settings>
   );
 }

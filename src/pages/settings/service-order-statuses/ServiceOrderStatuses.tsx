@@ -13,9 +13,15 @@ import { ServiceOrderStatus } from '$app/common/interfaces/service-order-status'
 import { DataTable, DataTableColumns } from '$app/components/DataTable';
 import { useTranslation } from 'react-i18next';
 import { route } from '$app/common/helpers/route';
+import { Settings } from '$app/components/layouts/Settings';
 
 export function ServiceOrderStatuses() {
   const [t] = useTranslation();
+
+  const pages = [
+    { name: t('settings'), href: '/settings' },
+    { name: t('service_order_statuses'), href: '/settings/service_order_statuses' },
+  ];
 
   const columns: DataTableColumns<ServiceOrderStatus> = [
     {
@@ -58,15 +64,17 @@ export function ServiceOrderStatuses() {
   ];
 
   return (
-    <DataTable
-      resource="service_order_status"
-      columns={columns}
-      endpoint="/api/v1/service_order_statuses?sort=sort_order|asc"
-      bulkRoute="/api/v1/service_order_statuses/bulk"
-      linkToCreate="/settings/service_order_statuses/create"
-      linkToEdit="/settings/service_order_statuses/:id/edit"
-      withResourcefulActions
-      enableSavingFilterPreference
-    />
+    <Settings title={t('service_order_statuses')} breadcrumbs={pages}>
+      <DataTable
+        resource="service_order_status"
+        columns={columns}
+        endpoint="/api/v1/service_order_statuses?sort=sort_order|asc"
+        bulkRoute="/api/v1/service_order_statuses/bulk"
+        linkToCreate="/settings/service_order_statuses/create"
+        linkToEdit="/settings/service_order_statuses/:id/edit"
+        withResourcefulActions
+        enableSavingFilterPreference
+      />
+    </Settings>
   );
 }
