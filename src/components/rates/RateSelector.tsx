@@ -30,11 +30,16 @@ export function RateSelector(props: RateSelectorProps) {
   const company = useCurrentCompany();
 
   // Build endpoint with filters
-  let apiEndpoint = '/api/v1/rates?sort=sort_order|asc&is_active=true';
+  let apiEndpoint = '/api/v1/rates';
 
-  if (props.rateType) {
-    apiEndpoint += `&rate_type=${props.rateType}`;
+  // Use dedicated type endpoints if available
+  if (props.rateType === 'service') {
+    apiEndpoint = '/api/v1/rates/type/service';
+  } else if (props.rateType === 'travel') {
+    apiEndpoint = '/api/v1/rates/type/travel';
   }
+
+  apiEndpoint += '?sort=sort_order|asc&is_active=true';
 
   if (props.groupSettingId) {
     apiEndpoint += `&group_setting_id=${props.groupSettingId}`;
