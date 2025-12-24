@@ -51,7 +51,7 @@ export function useServiceOrderQuery(params: { id: string | undefined }) {
       request(
         'GET',
         endpoint(
-          '/api/v1/service_orders/:id?include=client,equipment,contract,status,assigned_user,labor_entries,parts',
+          '/api/v1/service_orders/:id?include=client,equipment,contract,status,assigned_user,labor_entries,parts_used,travels,expenses,tasks',
           {
             id: params.id,
           }
