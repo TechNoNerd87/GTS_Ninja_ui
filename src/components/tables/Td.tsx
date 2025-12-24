@@ -19,6 +19,7 @@ interface Props extends CommonProps {
   customizeTextColor?: boolean;
   resizable?: string;
   withoutPadding?: boolean;
+  allowOverflow?: boolean;
   style?: CSSProperties;
 }
 
@@ -64,9 +65,11 @@ function HtmlTd(props: HtmlTdProps) {
       rowSpan={props.rowSpan}
       onClick={props.onClick}
       className={classNames(
-        `text-sm break-words ${props.className} overflow-hidden whitespace-nowrap text-ellipsis`,
+        `text-sm break-words ${props.className}`,
         {
           'px-2 lg:px-2.5 xl:px-4 py-2': !props.withoutPadding,
+          'overflow-hidden whitespace-nowrap text-ellipsis': !props.allowOverflow,
+          'overflow-visible': props.allowOverflow,
         }
       )}
       style={{

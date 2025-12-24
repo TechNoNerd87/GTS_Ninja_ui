@@ -145,7 +145,7 @@ export function ServiceOrderPartsTable(props: Props) {
       </div>
 
       {parts.length > 0 && (
-        <Table>
+        <Table allowOverflow>
           <Thead>
             <Th>{t('product')}</Th>
             <Th>{t('description')}</Th>
@@ -157,7 +157,7 @@ export function ServiceOrderPartsTable(props: Props) {
           <Tbody>
             {parts.map((part) => (
               <Tr key={part.id}>
-                <Td>
+                <Td allowOverflow>
                   <ProductSelector
                     defaultValue={part.product_id}
                     onChange={(product) => handleProductSelect(part.id, product)}

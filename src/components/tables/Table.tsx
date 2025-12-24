@@ -21,6 +21,7 @@ interface Props extends CommonProps {
   isDataLoading?: boolean;
   resizable?: string;
   withoutBorder?: boolean;
+  allowOverflow?: boolean;
 }
 
 export function Table(props: Props) {
@@ -39,8 +40,10 @@ export function Table(props: Props) {
       >
         <div
           className={classNames(
-            'overflow-hidden border rounded-md border-b border-t',
+            'border rounded-md border-b border-t',
             {
+              'overflow-hidden': !props.allowOverflow,
+              'overflow-visible': props.allowOverflow,
               'border-b-0': props.withoutBottomBorder,
               'border-t-0': props.withoutTopBorder,
               'border-l-0': props.withoutLeftBorder,
@@ -54,7 +57,13 @@ export function Table(props: Props) {
           }}
         >
           <div
-            className={`overflow-auto min-w-full rounded-md shadow-sm ${props.className}`}
+            className={classNames(
+              `min-w-full rounded-md shadow-sm ${props.className}`,
+              {
+                'overflow-auto': !props.allowOverflow,
+                'overflow-visible': props.allowOverflow,
+              }
+            )}
             style={{
               ...props.style,
               height: props.style?.height || 'auto',

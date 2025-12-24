@@ -141,7 +141,7 @@ export function ServiceOrderLaborTable(props: Props) {
       </div>
 
       {laborEntries.length > 0 && (
-        <Table>
+        <Table allowOverflow>
           <Thead>
             <Th>{t('start_time')}</Th>
             <Th>{t('end_time')}</Th>
@@ -202,7 +202,7 @@ export function ServiceOrderLaborTable(props: Props) {
                 <Td className="text-center">
                   {(entry.billable_hours || 0).toFixed(2)}
                 </Td>
-                <Td className="min-w-[200px]">
+                <Td className="min-w-[200px]" allowOverflow>
                   <ServiceRateSelector
                     value={entry.labor_rate_id}
                     onChange={(rate) => handleRateSelection(entry.id, rate)}

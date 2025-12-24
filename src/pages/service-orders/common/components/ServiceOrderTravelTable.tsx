@@ -147,7 +147,7 @@ export function ServiceOrderTravelTable(props: Props) {
       </div>
 
       {travelEntries.length > 0 && (
-        <Table>
+        <Table allowOverflow>
           <Thead>
             <Th>{t('start_time')}</Th>
             <Th>{t('end_time')}</Th>
@@ -229,7 +229,7 @@ export function ServiceOrderTravelTable(props: Props) {
                 <Td className="text-center">
                   {(entry.billable_quantity || 0).toFixed(2)}
                 </Td>
-                <Td className="min-w-[200px]">
+                <Td className="min-w-[200px]" allowOverflow>
                   <TravelRateSelector
                     value={entry.travel_rate_id}
                     onChange={(rate) => handleRateSelection(entry.id, rate)}
