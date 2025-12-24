@@ -145,7 +145,7 @@ export function ServiceOrderExpenseTable(props: Props) {
         <h3 className="text-lg font-medium" style={{ color: colors.$3 }}>
           {t('expenses')}
         </h3>
-        <Button type="minimal" onClick={handleAddExpense}>
+        <Button type="minimal" behavior="button" onClick={handleAddExpense}>
           <Icon element={MdAdd} size={20} />
           {t('add_expense')}
         </Button>
@@ -256,6 +256,7 @@ export function ServiceOrderExpenseTable(props: Props) {
                   <Td>
                     <Button
                       type="minimal"
+                      behavior="button"
                       onClick={() => handleRemoveExpense(expense.id)}
                     >
                       <Icon element={MdDelete} size={20} color="red" />
@@ -315,7 +316,7 @@ export function ServiceOrderExpenseTable(props: Props) {
           style={{ borderColor: colors.$5, color: colors.$3 }}
         >
           <p>{t('no_expenses')}</p>
-          <Button type="minimal" onClick={handleAddExpense} className="mt-2">
+          <Button type="minimal" behavior="button" onClick={handleAddExpense} className="mt-2">
             <Icon element={MdAdd} size={20} />
             {t('add_expense')}
           </Button>

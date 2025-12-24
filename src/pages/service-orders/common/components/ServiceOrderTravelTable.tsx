@@ -140,7 +140,7 @@ export function ServiceOrderTravelTable(props: Props) {
         <h3 className="text-lg font-medium" style={{ color: colors.$3 }}>
           {t('travel_entries')}
         </h3>
-        <Button type="minimal" onClick={handleAddEntry}>
+        <Button type="minimal" behavior="button" onClick={handleAddEntry}>
           <Icon element={MdAdd} size={20} />
           {t('add_travel')}
         </Button>
@@ -259,6 +259,7 @@ export function ServiceOrderTravelTable(props: Props) {
                 <Td>
                   <Button
                     type="minimal"
+                    behavior="button"
                     onClick={() => handleRemoveEntry(entry.id)}
                   >
                     <Icon element={MdDelete} size={20} color="red" />
@@ -301,7 +302,7 @@ export function ServiceOrderTravelTable(props: Props) {
           style={{ borderColor: colors.$5, color: colors.$3 }}
         >
           <p>{t('no_travel_entries')}</p>
-          <Button type="minimal" onClick={handleAddEntry} className="mt-2">
+          <Button type="minimal" behavior="button" onClick={handleAddEntry} className="mt-2">
             <Icon element={MdAdd} size={20} />
             {t('add_travel')}
           </Button>

@@ -138,7 +138,7 @@ export function ServiceOrderPartsTable(props: Props) {
         <h3 className="text-lg font-medium" style={{ color: colors.$3 }}>
           {t('parts_used')}
         </h3>
-        <Button type="minimal" onClick={handleAddPart}>
+        <Button type="minimal" behavior="button" onClick={handleAddPart}>
           <Icon element={MdAdd} size={20} />
           {t('add_part')}
         </Button>
@@ -199,6 +199,7 @@ export function ServiceOrderPartsTable(props: Props) {
                 <Td>
                   <Button
                     type="minimal"
+                    behavior="button"
                     onClick={() => handleRemovePart(part.id)}
                   >
                     <Icon element={MdDelete} size={20} color="red" />
@@ -229,7 +230,7 @@ export function ServiceOrderPartsTable(props: Props) {
           style={{ borderColor: colors.$5, color: colors.$3 }}
         >
           <p>{t('no_parts')}</p>
-          <Button type="minimal" onClick={handleAddPart} className="mt-2">
+          <Button type="minimal" behavior="button" onClick={handleAddPart} className="mt-2">
             <Icon element={MdAdd} size={20} />
             {t('add_part')}
           </Button>

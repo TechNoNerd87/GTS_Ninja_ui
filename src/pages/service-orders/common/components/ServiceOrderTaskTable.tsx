@@ -162,7 +162,7 @@ export function ServiceOrderTaskTable(props: Props) {
         <h3 className="text-lg font-medium" style={{ color: colors.$3 }}>
           {t('task_checklist')}
         </h3>
-        <Button type="minimal" onClick={handleAddTask}>
+        <Button type="minimal" behavior="button" onClick={handleAddTask}>
           <Icon element={MdAdd} size={20} />
           {t('add_task')}
         </Button>
@@ -281,6 +281,7 @@ export function ServiceOrderTaskTable(props: Props) {
                   <div className="flex space-x-1">
                     <Button
                       type="minimal"
+                      behavior="button"
                       onClick={() => quickSetStatus(task.id, 'complete')}
                       className={task.completion_status === 'complete' ? 'bg-green-100 dark:bg-green-900/30' : ''}
                     >
@@ -288,6 +289,7 @@ export function ServiceOrderTaskTable(props: Props) {
                     </Button>
                     <Button
                       type="minimal"
+                      behavior="button"
                       onClick={() => quickSetStatus(task.id, 'not_applicable')}
                       className={task.completion_status === 'not_applicable' ? 'bg-blue-100 dark:bg-blue-900/30' : ''}
                     >
@@ -295,6 +297,7 @@ export function ServiceOrderTaskTable(props: Props) {
                     </Button>
                     <Button
                       type="minimal"
+                      behavior="button"
                       onClick={() => quickSetStatus(task.id, 'skipped')}
                       className={task.completion_status === 'skipped' ? 'bg-yellow-100 dark:bg-yellow-900/30' : ''}
                     >
@@ -305,6 +308,7 @@ export function ServiceOrderTaskTable(props: Props) {
                 <Td>
                   <Button
                     type="minimal"
+                    behavior="button"
                     onClick={() => handleRemoveTask(task.id)}
                   >
                     <Icon element={MdDelete} size={20} color="red" />
@@ -334,7 +338,7 @@ export function ServiceOrderTaskTable(props: Props) {
           style={{ borderColor: colors.$5, color: colors.$3 }}
         >
           <p>{t('no_tasks')}</p>
-          <Button type="minimal" onClick={handleAddTask} className="mt-2">
+          <Button type="minimal" behavior="button" onClick={handleAddTask} className="mt-2">
             <Icon element={MdAdd} size={20} />
             {t('add_task')}
           </Button>

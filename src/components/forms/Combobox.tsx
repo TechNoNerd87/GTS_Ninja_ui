@@ -329,7 +329,7 @@ export function Combobox<T = any>({
   }, [highlightedIndex]);
 
   return (
-    <div ref={comboboxRef} className="w-full" tabIndex={-1}>
+    <div ref={comboboxRef} className="relative w-full" tabIndex={-1}>
       {inputOptions.label ? (
         <p
           className={classNames(
@@ -629,7 +629,7 @@ export function ComboboxStatic<T = any>({
   }, [initiallyVisible]);
 
   return (
-    <div className="w-full">
+    <div className="relative w-full">
       <HeadlessCombobox
         as="div"
         value={selectedValue}

@@ -134,7 +134,7 @@ export function ServiceOrderLaborTable(props: Props) {
         <h3 className="text-lg font-medium" style={{ color: colors.$3 }}>
           {t('labor_entries')}
         </h3>
-        <Button type="minimal" onClick={handleAddEntry}>
+        <Button type="minimal" behavior="button" onClick={handleAddEntry}>
           <Icon element={MdAdd} size={20} />
           {t('add_labor')}
         </Button>
@@ -232,6 +232,7 @@ export function ServiceOrderLaborTable(props: Props) {
                 <Td>
                   <Button
                     type="minimal"
+                    behavior="button"
                     onClick={() => handleRemoveEntry(entry.id)}
                   >
                     <Icon element={MdDelete} size={20} color="red" />
@@ -271,7 +272,7 @@ export function ServiceOrderLaborTable(props: Props) {
           style={{ borderColor: colors.$5, color: colors.$3 }}
         >
           <p>{t('no_labor_entries')}</p>
-          <Button type="minimal" onClick={handleAddEntry} className="mt-2">
+          <Button type="minimal" behavior="button" onClick={handleAddEntry} className="mt-2">
             <Icon element={MdAdd} size={20} />
             {t('add_labor')}
           </Button>
