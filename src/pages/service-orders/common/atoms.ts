@@ -10,5 +10,12 @@
 
 import { ServiceOrder } from '$app/common/interfaces/service-order';
 import { atom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
+import { LineItemTabType } from './components/LineItemTabs';
 
 export const serviceOrderAtom = atom<ServiceOrder | undefined>(undefined);
+
+export const activeLineItemTabAtom = atomWithStorage<LineItemTabType>(
+  'service-order-active-tab',
+  'labor'
+);
