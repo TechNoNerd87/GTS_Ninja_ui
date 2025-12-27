@@ -90,7 +90,7 @@ export function ContractItemsTable(props: Props) {
         <h3 className="text-lg font-medium" style={{ color: colors.$3 }}>
           {t('contract_items')}
         </h3>
-        <Button type="minimal" onClick={handleAddItem}>
+        <Button type="minimal" behavior="button" onClick={handleAddItem}>
           <Icon element={MdAdd} size={20} />
           {t('add_item')}
         </Button>
@@ -142,6 +142,7 @@ export function ContractItemsTable(props: Props) {
                 <Td>
                   <Button
                     type="minimal"
+                    behavior="button"
                     onClick={() => handleRemoveItem(item.id)}
                   >
                     <Icon element={MdDelete} size={20} color="red" />
@@ -172,7 +173,7 @@ export function ContractItemsTable(props: Props) {
           style={{ borderColor: colors.$5, color: colors.$3 }}
         >
           <p>{t('no_items')}</p>
-          <Button type="minimal" onClick={handleAddItem} className="mt-2">
+          <Button type="minimal" behavior="button" onClick={handleAddItem} className="mt-2">
             <Icon element={MdAdd} size={20} />
             {t('add_item')}
           </Button>
