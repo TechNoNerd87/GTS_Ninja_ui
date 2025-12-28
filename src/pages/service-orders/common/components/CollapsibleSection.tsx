@@ -18,12 +18,14 @@ interface Props {
   title: string;
   defaultOpen?: boolean;
   children: React.ReactNode;
+  icon?: React.ReactNode;
+  badge?: string;
 }
 
 export function CollapsibleSection(props: Props) {
   const colors = useColorScheme();
 
-  const { title, defaultOpen = false, children } = props;
+  const { title, defaultOpen = false, children, icon, badge } = props;
 
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -43,7 +45,15 @@ export function CollapsibleSection(props: Props) {
         )}
         style={{ color: colors.$3 }}
       >
-        <span>{title}</span>
+        <div className="flex items-center gap-2">
+          {icon && <span className="text-gray-500">{icon}</span>}
+          <span>{title}</span>
+          {badge && (
+            <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+              {badge}
+            </span>
+          )}
+        </div>
         <Icon
           element={isOpen ? MdExpandLess : MdExpandMore}
           size={24}

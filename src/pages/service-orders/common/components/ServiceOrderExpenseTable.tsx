@@ -8,6 +8,7 @@
  * @license https://www.elastic.co/licensing/elastic-license
  */
 
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ServiceOrder, ServiceOrderExpense, ExpenseCategory } from '$app/common/interfaces/service-order';
 import { useColorScheme } from '$app/common/colors';
@@ -15,12 +16,13 @@ import { Button, SelectField } from '$app/components/forms';
 import { InputField } from '$app/components/forms';
 import { NumberInputField } from '$app/components/forms/NumberInputField';
 import { useFormatMoney } from '$app/common/hooks/money/useFormatMoney';
-import { MdDelete, MdAdd, MdCheck, MdReceipt } from 'react-icons/md';
+import { MdDelete, MdAdd, MdReceipt } from 'react-icons/md';
 import { Icon } from '$app/components/icons/Icon';
 import { Table, Thead, Th, Tbody, Tr, Td } from '$app/components/tables';
 import { v4 as uuidv4 } from 'uuid';
 import Toggle from '$app/components/forms/Toggle';
 import { Badge } from '$app/components/Badge';
+import classNames from 'classnames';
 
 interface Props {
   serviceOrder: ServiceOrder;
@@ -36,6 +38,12 @@ export function ServiceOrderExpenseTable(props: Props) {
   const { serviceOrder, handleChange } = props;
 
   const expenses = serviceOrder.expenses || [];
+
+  const [selectedExpenseId, setSelectedExpenseId] = useState<string | null>(
+    expenses.length > 0 ? expenses[0].id : null
+  );
+
+  const selectedExpense = expenses.find((expense) => expense.id === selectedExpenseId);
 
   const expenseCategoryOptions: { value: ExpenseCategory; label: string }[] = [
     { value: 'fuel', label: t('fuel') },
@@ -77,14 +85,18 @@ export function ServiceOrderExpenseTable(props: Props) {
       is_deleted: false,
     };
 
-    handleChange('expenses', [...expenses, newExpense]);
+    const newExpenses = [...expenses, newExpense];
+    handleChange('expenses', newExpenses);
+    setSelectedExpenseId(newExpense.id);
   };
 
   const handleRemoveExpense = (expenseId: string) => {
-    handleChange(
-      'expenses',
-      expenses.filter((expense) => expense.id !== expenseId)
-    );
+    const newExpenses = expenses.filter((expense) => expense.id !== expenseId);
+    handleChange('expenses', newExpenses);
+
+    if (selectedExpenseId === expenseId) {
+      setSelectedExpenseId(newExpenses.length > 0 ? newExpenses[0].id : null);
+    }
   };
 
   const handleExpenseChange = (
@@ -139,10 +151,17 @@ export function ServiceOrderExpenseTable(props: Props) {
     return <Badge variant="yellow">{t('pending')}</Badge>;
   };
 
+  const getCategoryLabel = (category: ExpenseCategory) => {
+    const option = expenseCategoryOptions.find((opt) => opt.value === category);
+    return option ? option.label : category;
+  };
+
   return (
     <div className="flex flex-col space-y-4">
+      {/* Header with Add button */}
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium" style={{ color: colors.$3 }}>
+        <h3 className="text-lg font-medium flex items-center gap-2" style={{ color: colors.$3 }}>
+          <span>💰</span>
           {t('expenses')}
         </h3>
         <Button type="minimal" behavior="button" onClick={handleAddExpense}>
@@ -153,119 +172,63 @@ export function ServiceOrderExpenseTable(props: Props) {
 
       {expenses.length > 0 && (
         <>
+          {/* Summary Table */}
           <Table>
             <Thead>
               <Th>{t('date')}</Th>
               <Th>{t('category')}</Th>
               <Th>{t('name')}</Th>
-              <Th>{t('description')}</Th>
               <Th>{t('amount')}</Th>
-              <Th>{t('tax_paid')}</Th>
               <Th>{t('charge_to_client')}</Th>
-              <Th>{t('charge_amount')}</Th>
-              <Th>{t('reimburse')}</Th>
-              <Th>{t('status')}</Th>
+              <Th>{t('reimbursement')}</Th>
               <Th></Th>
             </Thead>
             <Tbody>
               {expenses.map((expense) => (
-                <Tr key={expense.id}>
+                <Tr
+                  key={expense.id}
+                  className={classNames('cursor-pointer transition-colors', {
+                    'bg-blue-50 dark:bg-blue-900/20': expense.id === selectedExpenseId,
+                  })}
+                  onClick={() => setSelectedExpenseId(expense.id)}
+                >
+                  <Td>{expense.expense_date || '-'}</Td>
+                  <Td>{getCategoryLabel(expense.expense_category)}</Td>
+                  <Td>{expense.name || '-'}</Td>
                   <Td>
-                    <InputField
-                      type="date"
-                      value={expense.expense_date}
-                      onValueChange={(value) =>
-                        handleExpenseChange(expense.id, 'expense_date', value)
-                      }
-                    />
-                  </Td>
-                  <Td>
-                    <SelectField
-                      value={expense.expense_category}
-                      onValueChange={(value) =>
-                        handleExpenseChange(expense.id, 'expense_category', value as ExpenseCategory)
-                      }
-                    >
-                      {expenseCategoryOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </SelectField>
+                    {formatMoney(
+                      expense.total_cost || 0,
+                      serviceOrder.client?.country_id,
+                      serviceOrder.client?.settings?.currency_id
+                    )}
                   </Td>
                   <Td>
-                    <InputField
-                      value={expense.name}
-                      onValueChange={(value) =>
-                        handleExpenseChange(expense.id, 'name', value)
-                      }
-                    />
+                    {expense.charge_to_client
+                      ? formatMoney(
+                          expense.charge_amount || 0,
+                          serviceOrder.client?.country_id,
+                          serviceOrder.client?.settings?.currency_id
+                        )
+                      : '-'}
                   </Td>
-                  <Td>
-                    <InputField
-                      value={expense.description}
-                      onValueChange={(value) =>
-                        handleExpenseChange(expense.id, 'description', value)
-                      }
-                    />
-                  </Td>
-                  <Td>
-                    <NumberInputField
-                      value={expense.total_cost}
-                      onValueChange={(value) =>
-                        handleExpenseChange(expense.id, 'total_cost', parseFloat(value) || 0)
-                      }
-                    />
-                  </Td>
-                  <Td>
-                    <NumberInputField
-                      value={expense.tax_paid}
-                      onValueChange={(value) =>
-                        handleExpenseChange(expense.id, 'tax_paid', parseFloat(value) || 0)
-                      }
-                    />
-                  </Td>
-                  <Td className="text-center">
-                    <Toggle
-                      checked={expense.charge_to_client}
-                      onValueChange={(value) =>
-                        handleExpenseChange(expense.id, 'charge_to_client', value)
-                      }
-                    />
-                  </Td>
-                  <Td>
-                    <NumberInputField
-                      value={expense.charge_amount}
-                      onValueChange={(value) =>
-                        handleExpenseChange(expense.id, 'charge_amount', parseFloat(value) || 0)
-                      }
-                      disabled={!expense.charge_to_client}
-                    />
-                  </Td>
-                  <Td className="text-center">
-                    <Toggle
-                      checked={expense.reimburse_user}
-                      onValueChange={(value) =>
-                        handleExpenseChange(expense.id, 'reimburse_user', value)
-                      }
-                    />
-                  </Td>
-                  <Td>
-                    {getReimbursementBadge(expense)}
-                  </Td>
+                  <Td>{getReimbursementBadge(expense)}</Td>
                   <Td>
                     <Button
                       type="minimal"
                       behavior="button"
-                      onClick={() => handleRemoveExpense(expense.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemoveExpense(expense.id);
+                      }}
                     >
                       <Icon element={MdDelete} size={20} color="red" />
                     </Button>
                   </Td>
                 </Tr>
               ))}
+              {/* Totals Row */}
               <Tr>
-                <Td colSpan={4} className="text-right font-medium">
+                <Td colSpan={3} className="text-right font-medium">
                   {t('totals')}:
                 </Td>
                 <Td className="font-medium">
@@ -275,8 +238,6 @@ export function ServiceOrderExpenseTable(props: Props) {
                     serviceOrder.client?.settings?.currency_id
                   )}
                 </Td>
-                <Td></Td>
-                <Td></Td>
                 <Td className="font-medium">
                   {formatMoney(
                     calculateTotalChargeToClient(),
@@ -284,7 +245,7 @@ export function ServiceOrderExpenseTable(props: Props) {
                     serviceOrder.client?.settings?.currency_id
                   )}
                 </Td>
-                <Td colSpan={3}></Td>
+                <Td colSpan={2}></Td>
               </Tr>
             </Tbody>
           </Table>
@@ -304,6 +265,177 @@ export function ServiceOrderExpenseTable(props: Props) {
                     serviceOrder.client?.settings?.currency_id
                   )}
                 </span>
+              </div>
+            </div>
+          )}
+
+          {/* Detail Form for Selected Expense */}
+          {selectedExpense && (
+            <div
+              className="border rounded-lg p-4 mt-4"
+              style={{ borderColor: colors.$5, backgroundColor: colors.$1 }}
+            >
+              <h4 className="text-sm font-medium mb-4" style={{ color: colors.$3 }}>
+                {t('edit_expense')}
+              </h4>
+
+              {/* Row 1: Date | Category | Name | Receipt Number */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div>
+                  <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">
+                    {t('expense_date')}
+                  </label>
+                  <InputField
+                    type="date"
+                    value={selectedExpense.expense_date}
+                    onValueChange={(value) =>
+                      handleExpenseChange(selectedExpense.id, 'expense_date', value)
+                    }
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">
+                    {t('category')}
+                  </label>
+                  <SelectField
+                    value={selectedExpense.expense_category}
+                    onValueChange={(value) =>
+                      handleExpenseChange(selectedExpense.id, 'expense_category', value as ExpenseCategory)
+                    }
+                  >
+                    {expenseCategoryOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </SelectField>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">
+                    {t('name')}
+                  </label>
+                  <InputField
+                    value={selectedExpense.name}
+                    onValueChange={(value) =>
+                      handleExpenseChange(selectedExpense.id, 'name', value)
+                    }
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">
+                    {t('receipt_number')}
+                  </label>
+                  <InputField
+                    value={selectedExpense.receipt_number}
+                    onValueChange={(value) =>
+                      handleExpenseChange(selectedExpense.id, 'receipt_number', value)
+                    }
+                  />
+                </div>
+              </div>
+
+              {/* Row 2: Total Cost | Tax Paid | Charge to Client Toggle | Charge Amount */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div>
+                  <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">
+                    {t('total_cost')}
+                  </label>
+                  <NumberInputField
+                    value={selectedExpense.total_cost}
+                    onValueChange={(value) =>
+                      handleExpenseChange(selectedExpense.id, 'total_cost', parseFloat(value) || 0)
+                    }
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">
+                    {t('tax_paid')}
+                  </label>
+                  <NumberInputField
+                    value={selectedExpense.tax_paid}
+                    onValueChange={(value) =>
+                      handleExpenseChange(selectedExpense.id, 'tax_paid', parseFloat(value) || 0)
+                    }
+                  />
+                </div>
+                <div className="flex items-center gap-3 pt-5">
+                  <Toggle
+                    checked={selectedExpense.charge_to_client}
+                    onValueChange={(value) =>
+                      handleExpenseChange(selectedExpense.id, 'charge_to_client', value)
+                    }
+                  />
+                  <label className="text-sm font-medium" style={{ color: colors.$3 }}>
+                    {t('charge_to_client')}
+                  </label>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">
+                    {t('charge_amount')}
+                  </label>
+                  <NumberInputField
+                    value={selectedExpense.charge_amount}
+                    onValueChange={(value) =>
+                      handleExpenseChange(selectedExpense.id, 'charge_amount', parseFloat(value) || 0)
+                    }
+                    disabled={!selectedExpense.charge_to_client}
+                  />
+                </div>
+              </div>
+
+              {/* Row 3: User | Reimburse Toggle | Reimbursed Toggle */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div>
+                  <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">
+                    {t('user')}
+                  </label>
+                  <InputField
+                    value={selectedExpense.technician_user_id}
+                    onValueChange={(value) =>
+                      handleExpenseChange(selectedExpense.id, 'technician_user_id', value)
+                    }
+                    placeholder={t('select_user')}
+                  />
+                </div>
+                <div className="flex items-center gap-3 pt-5">
+                  <Toggle
+                    checked={selectedExpense.reimburse_user}
+                    onValueChange={(value) =>
+                      handleExpenseChange(selectedExpense.id, 'reimburse_user', value)
+                    }
+                  />
+                  <label className="text-sm font-medium" style={{ color: colors.$3 }}>
+                    {t('needs_reimbursement')}
+                  </label>
+                </div>
+                <div className="flex items-center gap-3 pt-5">
+                  <Toggle
+                    checked={selectedExpense.is_reimbursed}
+                    onValueChange={(value) =>
+                      handleExpenseChange(selectedExpense.id, 'is_reimbursed', value)
+                    }
+                    disabled={!selectedExpense.reimburse_user}
+                  />
+                  <label className="text-sm font-medium" style={{ color: colors.$3 }}>
+                    {t('reimbursed')}
+                  </label>
+                </div>
+                <div></div>
+              </div>
+
+              {/* Row 4: Description */}
+              <div>
+                <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1 block">
+                  {t('description')}
+                </label>
+                <InputField
+                  element="textarea"
+                  value={selectedExpense.description}
+                  onValueChange={(value) =>
+                    handleExpenseChange(selectedExpense.id, 'description', value)
+                  }
+                  placeholder={t('enter_expense_description')}
+                />
               </div>
             </div>
           )}

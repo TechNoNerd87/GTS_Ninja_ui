@@ -33,8 +33,9 @@ import { activeLineItemTabAtom } from '../common/atoms';
 import { InputField } from '$app/components/forms';
 import { NumberInputField } from '$app/components/forms/NumberInputField';
 import { useFormatMoney } from '$app/common/hooks/money/useFormatMoney';
-import { MdCheckCircle } from 'react-icons/md';
+import { MdCheckCircle, MdAttachFile, MdNotes } from 'react-icons/md';
 import { Icon } from '$app/components/icons/Icon';
+import { MarkdownEditor } from '$app/components/forms/MarkdownEditor';
 
 interface Context {
   errors: ValidationBag | undefined;
@@ -120,6 +121,74 @@ export default function Edit() {
             handleChange={handleChange}
             type="edit"
           />
+
+          {/* Wiki/Notes Section */}
+          <CollapsibleSection
+            title={t('wiki_notes')}
+            icon={<Icon element={MdNotes} size={18} />}
+            badge={serviceOrder.private_notes || serviceOrder.public_notes ? '1' : undefined}
+          >
+            <div className="space-y-4">
+              <div>
+                <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 block">
+                  {t('public_notes')}
+                </label>
+                <InputField
+                  element="textarea"
+                  value={serviceOrder.public_notes}
+                  onValueChange={(value) => handleChange('public_notes', value)}
+                  errorMessage={errors?.errors.public_notes}
+                />
+              </div>
+              <div>
+                <label className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 block">
+                  {t('private_notes')}
+                </label>
+                <InputField
+                  element="textarea"
+                  value={serviceOrder.private_notes}
+                  onValueChange={(value) => handleChange('private_notes', value)}
+                  errorMessage={errors?.errors.private_notes}
+                />
+              </div>
+            </div>
+          </CollapsibleSection>
+
+          {/* Attached Files Section */}
+          <CollapsibleSection
+            title={t('attached_files')}
+            icon={<Icon element={MdAttachFile} size={18} />}
+            badge={serviceOrder.documents?.length ? String(serviceOrder.documents.length) : undefined}
+          >
+            <div className="p-4 text-center border-2 border-dashed rounded-lg" style={{ borderColor: colors.$5 }}>
+              {serviceOrder.documents && serviceOrder.documents.length > 0 ? (
+                <div className="space-y-2">
+                  {serviceOrder.documents.map((doc, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-800 rounded"
+                    >
+                      <span className="text-sm" style={{ color: colors.$3 }}>{doc.name}</span>
+                      <a
+                        href={doc.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-blue-600 hover:underline"
+                      >
+                        {t('download')}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="py-4">
+                  <Icon element={MdAttachFile} size={32} className="mx-auto mb-2 text-gray-400" />
+                  <p className="text-sm text-gray-500">{t('no_files_attached')}</p>
+                  <p className="text-xs text-gray-400 mt-1">{t('drag_drop_or_click_to_upload')}</p>
+                </div>
+              )}
+            </div>
+          </CollapsibleSection>
 
           {/* Tabbed Line Items */}
           <Card
