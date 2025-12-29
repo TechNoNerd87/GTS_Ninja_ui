@@ -441,47 +441,47 @@ export default function Edit() {
           <CollapsibleSection title={t('costs_summary')} defaultOpen>
             <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
               <div className="text-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                <div className="text-lg font-bold" style={{ color: colors.$3 }}>
+                <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
                   {formatMoney(
                     serviceOrder.labor_cost || 0,
                     serviceOrder.client?.country_id,
                     serviceOrder.client?.settings?.currency_id
                   )}
                 </div>
-                <div className="text-xs text-gray-500">{t('labor')}</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">{t('labor')}</div>
               </div>
 
               <div className="text-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                <div className="text-lg font-bold" style={{ color: colors.$3 }}>
+                <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
                   {formatMoney(
                     serviceOrder.parts_cost || 0,
                     serviceOrder.client?.country_id,
                     serviceOrder.client?.settings?.currency_id
                   )}
                 </div>
-                <div className="text-xs text-gray-500">{t('parts')}</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">{t('parts')}</div>
               </div>
 
               <div className="text-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                <div className="text-lg font-bold" style={{ color: colors.$3 }}>
+                <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
                   {formatMoney(
                     serviceOrder.travel_cost || 0,
                     serviceOrder.client?.country_id,
                     serviceOrder.client?.settings?.currency_id
                   )}
                 </div>
-                <div className="text-xs text-gray-500">{t('travel')}</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">{t('travel')}</div>
               </div>
 
               <div className="text-center p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                <div className="text-lg font-bold" style={{ color: colors.$3 }}>
+                <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
                   {formatMoney(
                     serviceOrder.other_cost || 0,
                     serviceOrder.client?.country_id,
                     serviceOrder.client?.settings?.currency_id
                   )}
                 </div>
-                <div className="text-xs text-gray-500">{t('other')}</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">{t('other')}</div>
               </div>
 
               <div className="text-center p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">

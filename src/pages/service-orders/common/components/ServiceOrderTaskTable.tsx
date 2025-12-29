@@ -259,7 +259,7 @@ export function ServiceOrderTaskTable(props: Props) {
                     <Button
                       type="minimal"
                       behavior="button"
-                      onClick={(e) => {
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.stopPropagation();
                         handleRemoveTask(task.id);
                       }}

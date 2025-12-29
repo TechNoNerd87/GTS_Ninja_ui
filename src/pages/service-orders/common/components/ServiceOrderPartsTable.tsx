@@ -222,7 +222,7 @@ export function ServiceOrderPartsTable(props: Props) {
                     <Button
                       type="minimal"
                       behavior="button"
-                      onClick={(e) => {
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.stopPropagation();
                         handleRemovePart(part.id);
                       }}

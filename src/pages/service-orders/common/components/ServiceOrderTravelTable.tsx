@@ -202,7 +202,7 @@ export function ServiceOrderTravelTable(props: Props) {
                     <Button
                       type="minimal"
                       behavior="button"
-                      onClick={(e) => {
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                         e.stopPropagation();
                         handleRemoveEntry(entry.id);
                       }}

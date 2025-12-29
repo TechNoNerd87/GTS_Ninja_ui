@@ -17,7 +17,6 @@ import { ServiceOrder as ServiceOrderInterface } from '$app/common/interfaces/se
 import { ValidationBag } from '$app/common/interfaces/validation-bag';
 import { useServiceOrderQuery } from '$app/common/queries/service-orders';
 import { Page } from '$app/components/Breadcrumbs';
-import { Container } from '$app/components/Container';
 import { Default } from '$app/components/layouts/Default';
 import { ResourceActions } from '$app/components/ResourceActions';
 import { Tabs } from '$app/components/Tabs';
@@ -107,7 +106,7 @@ export default function ServiceOrder() {
         })}
       afterBreadcrumbs={<PreviousNextNavigation entity="service_order" />}
     >
-      <Container breadcrumbs={[]}>
+      <div className="space-y-4">
         <Tabs tabs={tabs} />
 
         <Outlet
@@ -118,7 +117,7 @@ export default function ServiceOrder() {
             setServiceOrder: setServiceOrderValue,
           }}
         />
-      </Container>
+      </div>
     </Default>
   );
 }

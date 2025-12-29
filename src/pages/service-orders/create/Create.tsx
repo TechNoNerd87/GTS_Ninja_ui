@@ -17,7 +17,6 @@ import { GenericSingleResourceResponse } from '$app/common/interfaces/generic-ap
 import { ServiceOrder } from '$app/common/interfaces/service-order';
 import { ValidationBag } from '$app/common/interfaces/validation-bag';
 import { useBlankServiceOrderQuery } from '$app/common/queries/service-orders';
-import { Container } from '$app/components/Container';
 import { Default } from '$app/components/layouts/Default';
 import { Spinner } from '$app/components/Spinner';
 import { useAtom } from 'jotai';
@@ -104,13 +103,13 @@ export default function Create() {
       disableSaveButton={!serviceOrder || isFormBusy}
       onSaveClick={handleSave}
     >
-      <Container breadcrumbs={[]}>
+      <div className="space-y-4">
         {serviceOrder ? (
           <CreateServiceOrder errors={errors} setErrors={setErrors} />
         ) : (
           <Spinner />
         )}
-      </Container>
+      </div>
     </Default>
   );
 }

@@ -148,6 +148,11 @@ export interface ServiceOrderExpense {
   receipt_image: string;
   needs_reimbursement: boolean; // Calculated
   net_cost: number; // Calculated: total_cost - tax_paid
+  // Simpler aliases for UI components (optional)
+  date?: string;
+  category?: string;
+  amount?: number;
+  is_billable?: boolean;
   created_at: number;
   updated_at: number;
   archived_at: number;
@@ -277,9 +282,17 @@ export interface ServiceOrder {
   work_performed: string;
   technician_notes: string;
   customer_signature: string;
+  technician_signature: string;
   completed_at: string;
   is_covered_by_contract: boolean;
   is_completed: boolean;
+  // Notes
+  public_notes: string;
+  private_notes: string;
+  // Contact and address
+  contact_id: string;
+  service_address: string;
+  tags: string[];
   // Service Bank integration
   has_service_bank: boolean;
   service_bank_id: string;
